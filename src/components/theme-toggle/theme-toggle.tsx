@@ -2,7 +2,6 @@
 
 import * as React from "react";
 import { useTheme } from "next-themes";
-import * as motion from "motion/react-client";
 import { useEffect, useState } from "react";
 import { Sun, Moon } from "lucide-react";
 
@@ -59,7 +58,7 @@ export function ModeToggle() {
 
     return (
         <div className="flex items-center gap-2">
-            <Sun className="h-4 w-4 text-yellow-500" />
+            {/* <Sun className="h-4 w-4 text-yellow-500" />
             <button
                 className="toggle-container"
                 style={{
@@ -80,7 +79,12 @@ export function ModeToggle() {
                     }}
                 />
             </button>
-            <Moon className="h-4 w-4 text-blue-300" />
+            <Moon className="h-4 w-4 text-blue-300" /> */}
+            {isOn ? (
+               <Moon onClick={toggleSwitch} className="h-6 w-6 text-blue-300" />
+            ) : (
+               <Sun onClick={toggleSwitch} className="h-6 w-6 text-yellow-500" />
+            )}
         </div>
     );
 }

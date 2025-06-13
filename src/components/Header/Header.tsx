@@ -6,21 +6,30 @@ import { GithubIcon, LinkedinIcon } from "lucide-react";
 
 export const Header = () => {
     const menuItems = [
-        { name: "Home", href: "#" },
-        { name: "About", href: "#" },
-        { name: "Skills", href: "#" },
-        { name: "Projects", href: "#" },
-        { name: "Contact", href: "#" },
+        { name: "Home", href: "#home" },
+        { name: "About", href: "#about" },
+        { name: "Skills", href: "#skills" },
+        { name: "Projects", href: "#projects" },
+        { name: "Contact", href: "#contact" },
     ];
 
     const [isScroll, setIsScroll] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
 
+    const handleMenuItemClick = (sectionId: any) => {
+        setIsOpen(false);
+
+        const section = document.getElementById(sectionId);
+        if (section) {
+            section.scrollIntoView({ behavior: "smooth" });
+        }
+    };
+
     useEffect(() => {
         const handleScroll = () => {
             setIsScroll(window.scrollY > 50);
         };
-        setIsOpen(false); 
+        setIsOpen(false);
         window.addEventListener("scroll", handleScroll);
         return () => {
             window.removeEventListener("scroll", handleScroll);
@@ -39,11 +48,11 @@ export const Header = () => {
             <div className="flex items-center justify-between p-4">
                 <div className="flex items-center">
                     <div className="text-lg font-semibold cursor-pointer">
-                        <span className="text-blue-700">&lt;</span>
+                        <span className="text-blue-500">&lt;</span>
                         <span className="">Viet</span>
-                        <span className="text-blue-700">/</span>
+                        <span className="text-blue-500">/</span>
                         <span className="">Quoc</span>
-                        <span className="text-blue-700">&gt;</span>
+                        <span className="text-blue-500">&gt;</span>
                     </div>
                 </div>
 
@@ -52,7 +61,8 @@ export const Header = () => {
                         {menuItems.map((item) => (
                             <a
                                 key={item.name}
-                                href={item.href}
+                                
+                                onClick={() => handleMenuItemClick(item.href.slice(1))}
                                 className="text-lg text-gray-700 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400 transition-colors"
                             >
                                 {item.name}
@@ -115,9 +125,11 @@ export const Header = () => {
                             {menuItems.map((item) => (
                                 <li key={item.name}>
                                     <a
-                                        href={item.href}
                                         className="text-lg hover:text-blue-500 transition-colors"
-                                        onClick={() => setIsOpen(false)}
+                                        onClick={() => {
+                                            handleMenuItemClick(item.href.slice(1));
+                                            setIsOpen(false);
+                                        }}
                                     >
                                         {item.name}
                                     </a>

@@ -12,15 +12,14 @@ export const HeroSection = () => {
         if (!isScrolling) {
             setIsScrolling(true);
             setShowScrollIcon(false);
-            
-            // After 2 seconds, reset the scrolling state and show the icon again
+
             setTimeout(() => {
                 setIsScrolling(false);
                 setShowScrollIcon(true);
             }, 2000);
         }
     };
-    
+
     useEffect(() => {
         window.addEventListener("scroll", handleScroll);
         return () => {
@@ -30,7 +29,7 @@ export const HeroSection = () => {
 
     return (
         <section
-            id="hero"
+            id="home"
             className="relative min-h-[calc(100vh-64px)] flex flex-col items-center justify-center px-4 w-full"
         >
             <div className="container max-w-4xl mx-auto text-center z-10">
@@ -74,22 +73,32 @@ export const HeroSection = () => {
                     />
 
                     <p className="text-lg mt-4 md:text-xl text-muted-foreground max-2-2xl mx-auto opacity-0 animate-fade-in-delay-3">
-                        I create stellar web experiences with modern
-                        technologies. Specializing in front-end development, I
-                        build interfaces that are both beautiful and functional.
+                        I create stellar web experiences as a full stack
+                        developer. From intuitive front-end interfaces to robust
+                        back-end solutions, with expertise in DevOps practices
+                        and a passion for AI research.
                     </p>
 
-                    <div className="pt-4 opacity-0 animate-fade-in-delay-4">
-                        <a href="#projects" className="cosmic-button">
-                            View My Work
-                        </a>
+                    <div className="flex justify-center items-center gap-4">
+                        <div className="pt-4 opacity-0 animate-fade-in-delay-4">
+                            <a href="#projects" className="cosmic-button">
+                                View My Work
+                            </a>
+                        </div>
+                        <div className="pt-4 opacity-0 animate-fade-in-delay-4">
+                            <a href="#contact" className="cosmic-border">
+                                Download CV
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div 
+            <div
                 className={`absolute bottom-8 left-1/2 transform -translate-x-1/2 ${
-                    showScrollIcon ? 'animate-fade-in-delay-5' : 'animate-fade-out'
+                    showScrollIcon
+                        ? "animate-fade-in-delay-5"
+                        : "animate-fade-out"
                 }`}
             >
                 <div className="flex flex-col items-center">
