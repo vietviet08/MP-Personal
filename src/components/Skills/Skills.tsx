@@ -6,7 +6,7 @@ export const Skills = () => {
     return (
         <section
             id="skills"
-            className="relative min-h-[calc(100vh-64px)] py-24 pb-24 px-[12vw] md:px-[7vw] lg:px-[20vw] font-sans bg-skills-gradient clip-path-custom"
+            className="relative min-h-[calc(100vh-64px)] py-24 pb-24 px-[5vw] md:px-[7vw] lg:px-[20vw] font-sans bg-skills-gradient clip-path-custom"
         >
             {/* Section Title */}
             <div className="text-center mb-8">

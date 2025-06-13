@@ -17,18 +17,21 @@ import rancher from "@/assets/Rancher.svg";
 import spring from "@/assets/Spring.svg";
 import tailwindcss from "@/assets/Tailwind CSS.svg";
 import c from "@/assets/c-language-seeklogo.svg";
-import css from "@/assets/css3-seeklogo.png";
+import css from "@/assets/CSS3.svg";
 import expressjs from "@/assets/express-js.svg";
-import html from "@/assets/html5-logo-brandlogos.net_6da5ktavh.svg";
+import html from "@/assets/HTML5.svg";
 import java from "@/assets/java-logo-I5un0lRP_brandlogos.net.svg";
 import javascript from "@/assets/javascript-js-seeklogo.svg";
 import mysql from "@/assets/mysql-logo-brandlogos.net_7fuk34bn1.svg";
 import nodeJsLogo from "@/assets/node.js-logo-brandlogos.net_9gb0f3wp3.svg";
 import python from "@/assets/python-logo-EE6D25DA_brandlogos.net.svg";
-import react from "@/assets/react-logo-A60AB5e1_brandlogos.net.svg";
+import react from "@/assets/React.svg";
 import typescript from "@/assets/typescript-logo-brandlogos.net_8m25t2gyq.svg";
 import django from "@/assets/Django.svg";
 import flask from "@/assets/Flask.svg";
+import redis from "@/assets/Redis.svg";
+import kafka from "@/assets/Apache Kafka.svg";
+import boostrap from "@/assets/Bootstrap.svg";
 
 export const SkillsInfo = [
     {      
@@ -50,9 +53,9 @@ export const SkillsInfo = [
             {name: "CSS", logo: css},
             {name: "React", logo: react},
             {name: "Next.js", logo: nextjs},
-            {name: "Node.js", logo: nodejs},
             {name: "Express.js", logo: expressjs},
             {name: "Tailwind CSS", logo: tailwindcss},
+            {name: "Bootstrap", logo: boostrap},
         ],
     },
     {
@@ -63,6 +66,8 @@ export const SkillsInfo = [
             {name: "Express.js", logo: expressjs},
             {name: "Django", logo: django}, 
             {name: "Flask", logo: flask}, 
+            {name: "Redis", logo: redis}, 
+            {name: "Kafka", logo: kafka}, 
         ],
     },
     {

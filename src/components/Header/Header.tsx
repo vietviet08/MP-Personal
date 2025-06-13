@@ -39,7 +39,7 @@ export const Header = () => {
     return (
         <header
             className={
-                "fixed top-0 left-0 w-full z-50 transition duration-300 px-[2vw] md:px-[7vw] " +
+                "fixed top-0 left-0 w-full z-50 transition duration-300 px-[2vw] md:px-[5vw] lg:px-[19vw] " +
                 (isScroll
                     ? " bg-white/50 dark:bg-[#020618]/50 backdrop-filter backdrop-blur-md shadow-md "
                     : "bg-transparent")
@@ -47,7 +47,7 @@ export const Header = () => {
         >
             <div className="flex items-center justify-between p-4">
                 <div className="flex items-center">
-                    <div className="text-lg font-semibold cursor-pointer">
+                    <div className="text-xl font-semibold cursor-pointer">
                         <span className="text-blue-500">&lt;</span>
                         <span className="">Viet</span>
                         <span className="text-blue-500">/</span>
