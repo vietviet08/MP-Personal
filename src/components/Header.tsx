@@ -26,11 +26,11 @@ export const Header = () => {
     }, []);
 
     return (
-        <nav
+        <header
             className={
-                "fixed top-0 left-0 w-full z-50 transition duration-300 px-[7vw] md:px-[7vw] lg:px-[20vw]" +
+                "fixed top-0 left-0 w-full z-50 transition duration-300 px-[7vw] ]" +
                 (isScroll
-                    ? " bg-[#050414] bg-opacity-50 backdrop-filter backdrop-blur-lg shadow-md"
+                    ? " bg-white/50 dark:bg-[#020618]/50 backdrop-filter backdrop-blur-md shadow-md "
                     : "bg-transparent")
             }
         >
@@ -44,6 +44,7 @@ export const Header = () => {
                         <span className="text-blue-700">&gt;</span>
                     </div>
                 </div>
+
                 <div className="flex items-center gap-4">
                     <nav className="hidden md:flex items-center gap-6">
                         {menuItems.map((item) => (
@@ -57,6 +58,7 @@ export const Header = () => {
                         ))}
                     </nav>
                 </div>
+
                 <div className="hidden md:flex items-center gap-4">
                     <a
                         href="https://github.com/vietviet08"
@@ -78,6 +80,7 @@ export const Header = () => {
                     </a>
                     <ModeToggle />
                 </div>
+
                 <div className="md:hidden flex items-center">
                     <button
                         onClick={() => setIsOpen(!isOpen)}
@@ -103,9 +106,9 @@ export const Header = () => {
                         </svg>
                     </button>
                 </div>
-                {/* Mobile Menu Items */}
+
                 {isOpen && (
-                    <div className="absolute top-16 left-1/2 transform -translate-x-1/2 w-4/5 bg-white/40 dark:bg-black/40 bg-opacity-50 backdrop-filter backdrop-blur-lg z-50 rounded-lg shadow-lg md:hidden">
+                    <div className="absolute top-16 left-1/2 transform -translate-x-1/2 w-4/5 bg-white/50 dark:bg-[#020618]/50 backdrop-filter backdrop-blur-lg z-50 rounded-lg shadow-lg md:hidden">
                         <ul className="flex flex-col items-center space-y-4 py-4 text-gray-700 dark:text-gray-300">
                             {menuItems.map((item) => (
                                 <li key={item.name}>
@@ -143,6 +146,6 @@ export const Header = () => {
                     </div>
                 )}
             </div>
-        </nav>
+        </header>
     );
 };
