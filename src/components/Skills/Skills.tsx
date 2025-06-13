@@ -1,6 +1,9 @@
+'use client';
+
 import React from "react";
 import Image from "next/image";
 import { SkillsInfo } from "@/app/constants/constant";
+import Tilt from "react-parallax-tilt";
 
 export const Skills = () => {
     return (
@@ -18,6 +21,7 @@ export const Skills = () => {
             </div>
 
             {/* Skills List */}
+
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {SkillsInfo.map((skillCategory, index) => (
                     <div
@@ -27,18 +31,30 @@ export const Skills = () => {
                         <h3 className="text-2xl text-center font-semibold mb-4">
                             {skillCategory.title}
                         </h3>
-                        <div className="flex items-center justify-center flex-wrap gap-4">
-                            {skillCategory.skills.map((skill, skillIndex) => (
-                                <Image
-                                    key={skillIndex}
-                                    src={skill.logo}
-                                    alt={skill.name}
-                                    className="h-14 w-14 object-contain"
-                                    width={60}
-                                    height={60}
-                                />
-                            ))}
-                        </div>
+                        <Tilt
+                            key={skillCategory.title}
+                            tiltMaxAngleX={20}
+                            tiltMaxAngleY={20}
+                            perspective={500}
+                            scale={1.07}
+                            transitionSpeed={1000}
+                            gyroscope={true}
+                        >
+                            <div className="flex items-center justify-center flex-wrap gap-4">
+                                {skillCategory.skills.map(
+                                    (skill, skillIndex) => (
+                                        <Image
+                                            key={skillIndex}
+                                            src={skill.logo}
+                                            alt={skill.name}
+                                            className="h-14 w-14 object-contain"
+                                            width={60}
+                                            height={60}
+                                        />
+                                    )
+                                )}
+                            </div>
+                        </Tilt>
                     </div>
                 ))}
             </div>
