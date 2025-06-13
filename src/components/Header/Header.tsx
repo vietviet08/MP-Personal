@@ -1,13 +1,14 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { ModeToggle } from "./theme-toggle/theme-toggle";
+import { ModeToggle } from "../theme-toggle/theme-toggle";
 import { GithubIcon, LinkedinIcon } from "lucide-react";
 
 export const Header = () => {
     const menuItems = [
         { name: "Home", href: "#" },
         { name: "About", href: "#" },
+        { name: "Skills", href: "#" },
         { name: "Projects", href: "#" },
         { name: "Contact", href: "#" },
     ];
@@ -19,6 +20,7 @@ export const Header = () => {
         const handleScroll = () => {
             setIsScroll(window.scrollY > 50);
         };
+        setIsOpen(false); 
         window.addEventListener("scroll", handleScroll);
         return () => {
             window.removeEventListener("scroll", handleScroll);
@@ -28,7 +30,7 @@ export const Header = () => {
     return (
         <header
             className={
-                "fixed top-0 left-0 w-full z-50 transition duration-300 px-[7vw] ]" +
+                "fixed top-0 left-0 w-full z-50 transition duration-300 px-[2vw] md:px-[7vw] " +
                 (isScroll
                     ? " bg-white/50 dark:bg-[#020618]/50 backdrop-filter backdrop-blur-md shadow-md "
                     : "bg-transparent")
@@ -108,7 +110,7 @@ export const Header = () => {
                 </div>
 
                 {isOpen && (
-                    <div className="absolute top-16 left-1/2 transform -translate-x-1/2 w-4/5 bg-white/50 dark:bg-[#020618]/50 backdrop-filter backdrop-blur-lg z-50 rounded-lg shadow-lg md:hidden">
+                    <div className="absolute top-16 left-1/2 transform -translate-x-1/2 w-11/12 bg-white/50 dark:bg-[#020618]/50 backdrop-filter backdrop-blur-md z-50 rounded-lg shadow-lg md:hidden">
                         <ul className="flex flex-col items-center space-y-4 py-4 text-gray-700 dark:text-gray-300">
                             {menuItems.map((item) => (
                                 <li key={item.name}>
