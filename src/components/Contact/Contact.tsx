@@ -80,11 +80,10 @@ export const Contact = () => {
                             </div>
                         </div>
                     </div>
-
                 </div>
 
                 <div
-                    className="bg-card rounded-lg shadow-xs"
+                    className=" rounded-lg shadow-xs"
                     onSubmit={handleSubmit}
                 >
                     <h3 className="text-2xl font-semibold mb-6">
@@ -157,8 +156,6 @@ export const Contact = () => {
                              <Send size={16} />
                            {isSubmitting ? "Sending..." : "Send Message"}
                            </div>
-                            
-                            
                         </button>
                     </form>
                 </div>
