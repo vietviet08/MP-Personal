@@ -4,16 +4,19 @@ import * as React from "react";
 import { useTheme } from "next-themes";
 import * as motion from "motion/react-client";
 import { useEffect, useState } from "react";
+import { Sun, Moon } from "lucide-react";
 
 export function ModeToggle() {
     const { theme, setTheme, resolvedTheme } = useTheme();
     const [isOn, setIsOn] = useState(false);
+    const [mounted, setMounted] = useState(false);
     
-    // Set initial state based on theme
     useEffect(() => {
-        // Default theme is system
+        setMounted(true);
+    }, []);
+
+    useEffect(() => {
         if (!theme || theme === "system") {
-            // Check the resolved theme (what system actually sets)
             setIsOn(resolvedTheme === "dark");
         } else {
             setIsOn(theme === "dark");
@@ -26,7 +29,7 @@ export function ModeToggle() {
         setIsOn(!isOn);
     };
 
-    // Style definitions
+    // Style with TailwindCSS custom properties
     const container = {
         width: 60,
         height: 30,
@@ -35,6 +38,8 @@ export function ModeToggle() {
         cursor: "pointer",
         display: "flex",
         padding: 5,
+        position: "relative" as const,
+        overflow: "hidden" as const,
     };
 
     const handle = {
@@ -42,10 +47,19 @@ export function ModeToggle() {
         height: 20,
         backgroundColor: "var(--primary)",
         borderRadius: "50%",
+        zIndex: 2,
     };
+
+    // Don't render anything until mounted to prevent hydration mismatch
+    if (!mounted) {
+        return (
+            <div style={{ width: container.width, height: container.height }}></div>
+        );
+    }
 
     return (
         <div className="flex items-center gap-2">
+            <Sun className="h-4 w-4 text-yellow-500" />
             <button
                 className="toggle-container"
                 style={{
@@ -66,6 +80,7 @@ export function ModeToggle() {
                     }}
                 />
             </button>
+            <Moon className="h-4 w-4 text-blue-300" />
         </div>
     );
 }

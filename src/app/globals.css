@@ -120,3 +120,14 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Enhanced backdrop blur support */
+.backdrop-blur-xl {
+  -webkit-backdrop-filter: blur(24px);
+  backdrop-filter: blur(24px);
+}
+
+.backdrop-blur-md {
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
