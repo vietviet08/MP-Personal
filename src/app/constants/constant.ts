@@ -33,6 +33,9 @@ import redis from "@/assets/Redis.svg";
 import kafka from "@/assets/Apache Kafka.svg";
 import boostrap from "@/assets/Bootstrap.svg";
 
+import PicProject1 from "@/assets/pic-project-1.png";
+import PicProject2 from "@/assets/pic-project-2.png";
+
 export const SkillsInfo = [
     {      
         title: "Programming Languages",
@@ -94,5 +97,25 @@ export const SkillsInfo = [
             {name: "GitHub", logo: github},
             {name: "GitLab", logo: gitlab},
         ],
+    },
+]
+
+export const ProjectsInfo = [
+    {
+        title: "Microservices E-commerce Platform - Oralie",
+        description: "A scalable e-commerce platform built with microservices architecture. It includes user authentication, product management, and order processing.",
+        image: {PicProject1},
+        technologies: ["Spring Boot", "Spring Cloud", "Eureka", "Kafka", "Redis", "PostgresSql", "Keycloak", 
+                        "AWS S3", "Paypal", "MySql", "NextJs", "Tailwind CSS",
+                        "Shadcn", "TypeScript", "Grafana", "Loki", "Prometheus", "Docker", "Kubernetes", "Jenkins"],
+        link: "https://github.com/vietviet08/Oralie"
+    },
+    {
+        title: "Clothing Store - Catcosy",
+        description: "A full-stack clothing store application with user authentication, product management, and order processing. Built with Spring Boot and Thymeleaf.",
+        image: {PicProject2},
+        technologies: ["Spring Boot", "Spring Security", "JWT", "Mail Service",
+                        "AWS S3", "VN Pay", "MySql", "Thymeleaf", "Bootstrap", "Docker"],
+        link: "https://github.com/vietviet08/CATCOSY"
     },
 ]
