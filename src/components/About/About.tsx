@@ -1,6 +1,9 @@
+'use client';
+
 import { TitleSection } from "@/components/ui/title-section";
 import { Briefcase, Code, User } from "lucide-react";
 import React from "react";
+import { motion } from "framer-motion";
 
 export const About = () => {
     return (
@@ -10,77 +13,173 @@ export const About = () => {
             title={"About Me"}
         >
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-                <div className="space-y-6">
-                    <h3 className="text-2xl font-semibold">
+                <motion.div 
+                    className="space-y-6"
+                    initial={{ opacity: 0, y: 50 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.7, delay: 0.2 }}
+                >
+                    <motion.h3 
+                        className="text-2xl font-semibold"
+                        initial={{ opacity: 0 }}
+                        whileInView={{ opacity: 1 }}
+                        transition={{ duration: 0.5 }}
+                    >
                         Passionate Web Developer & Tech Creator
-                    </h3>
+                    </motion.h3>
 
-                    <p className="text-muted-foreground">
+                    <motion.p 
+                        className="text-muted-foreground"
+                        initial={{ opacity: 0 }}
+                        whileInView={{ opacity: 1 }}
+                        transition={{ duration: 0.5, delay: 0.3 }}
+                    >
                         With over 5 years of experience in web development, I
                         specialize in creating responsive, accessible, and
                         performant web applications using modern technologies.
-                    </p>
+                    </motion.p>
 
-                    <p className="text-muted-foreground">
+                    <motion.p 
+                        className="text-muted-foreground"
+                        initial={{ opacity: 0 }}
+                        whileInView={{ opacity: 1 }}
+                        transition={{ duration: 0.5, delay: 0.5 }}
+                    >
                         I&apos;m passionate about creating elegant solutions to
                         complex problems, and I&apos;m constantly learning new
                         technologies and techniques to stay at the forefront of
                         the ever-evolving web landscape.
-                    </p>
-                </div>
+                    </motion.p>
+                </motion.div>
 
-                <div className="grid grid-cols-1 gap-6">
-                    <div className="gradient-border p-6 card-hover">
+                <motion.div 
+                    className="grid grid-cols-1 gap-6"
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.7 }}
+                >
+                    <motion.div 
+                        className="gradient-border p-6 card-hover"
+                        initial={{ opacity: 0, x: 50 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        
+                        transition={{ duration: 0.6, delay: 0.2 }}
+                        whileHover={{ scale: 1.03 }}
+                        whileTap={{ scale: 0.98 }}
+                    >
                         <div className="flex items-start gap-4">
-                            <div className="p-3 rounded-full bg-primary/10">
+                            <motion.div 
+                                className="p-3 rounded-full bg-primary/10"
+                                initial={{ scale: 0, rotate: -180 }}
+                                whileInView={{ scale: 1, rotate: 0 }}
+                                transition={{ type: "spring", stiffness: 260, damping: 20, delay: 0.3 }}
+                            >
                                 <Code className="h-6 w-6 text-primary" />
-                            </div>
+                            </motion.div>
                             <div className="text-left">
-                                <h4 className="font-semibold text-lg">
+                                <motion.h4 
+                                    className="font-semibold text-lg"
+                                    initial={{ opacity: 0 }}
+                                    whileInView={{ opacity: 1 }}
+                                    transition={{ duration: 0.5, delay: 0.4 }}
+                                >
                                     {" "}
                                     Web Development
-                                </h4>
-                                <p className="text-muted-foreground">
+                                </motion.h4>
+                                <motion.p 
+                                    className="text-muted-foreground"
+                                    initial={{ opacity: 0 }}
+                                    whileInView={{ opacity: 1 }}
+                                    transition={{ duration: 0.5, delay: 0.5 }}
+                                >
                                     Creating responsive websites and web
                                     applications with modern frameworks.
-                                </p>
+                                </motion.p>
                             </div>
                         </div>
-                    </div>
-                    <div className="gradient-border p-6 card-hover">
+                    </motion.div>
+                    <motion.div 
+                        className="gradient-border p-6 card-hover"
+                        initial={{ opacity: 0, x: 50 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.6, delay: 0.4 }}
+                        whileHover={{ scale: 1.03 }}
+                        whileTap={{ scale: 0.98 }}
+                    >
                         <div className="flex items-start gap-4">
-                            <div className="p-3 rounded-full bg-primary/10">
+                            <motion.div 
+                                className="p-3 rounded-full bg-primary/10"
+                                initial={{ scale: 0, rotate: -180 }}
+                                whileInView={{ scale: 1, rotate: 0 }}
+                                transition={{ type: "spring", stiffness: 260, damping: 20, delay: 0.5 }}
+                            >
                                 <User className="h-6 w-6 text-primary" />
-                            </div>
+                            </motion.div>
                             <div className="text-left">
-                                <h4 className="font-semibold text-lg">
+                                <motion.h4 
+                                    className="font-semibold text-lg"
+                                    initial={{ opacity: 0 }}
+                                    whileInView={{ opacity: 1 }}
+                                    transition={{ duration: 0.5, delay: 0.6 }}
+                                >
                                     UI/UX Design
-                                </h4>
-                                <p className="text-muted-foreground">
+                                </motion.h4>
+                                <motion.p 
+                                    className="text-muted-foreground"
+                                    initial={{ opacity: 0 }}
+                                    whileInView={{ opacity: 1 }}
+                                    transition={{ duration: 0.5, delay: 0.7 }}
+                                >
                                     Designing intuitive user interfaces and
                                     seamless user experiences.
-                                </p>
+                                </motion.p>
                             </div>
                         </div>
-                    </div>
-                    <div className="gradient-border p-6 card-hover">
+                    </motion.div>
+                    <motion.div 
+                        className="gradient-border p-6 card-hover"
+                        initial={{ opacity: 0, x: 50 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.6, delay: 0.6 }}
+                        whileHover={{ scale: 1.03 }}
+                        whileTap={{ scale: 0.98 }}
+                    >
                         <div className="flex items-start gap-4">
-                            <div className="p-3 rounded-full bg-primary/10">
+                            <motion.div 
+                                className="p-3 rounded-full bg-primary/10"
+                                initial={{ scale: 0, rotate: -180 }}
+                                whileInView={{ scale: 1, rotate: 0 }}
+                                transition={{ type: "spring", stiffness: 260, damping: 20, delay: 0.7 }}
+                            >
                                 <Briefcase className="h-6 w-6 text-primary" />
-                            </div>
+                            </motion.div>
 
                             <div className="text-left">
-                                <h4 className="font-semibold text-lg">
+                                <motion.h4 
+                                    className="font-semibold text-lg"
+                                    initial={{ opacity: 0 }}
+                                    whileInView={{ opacity: 1 }}
+                                    transition={{ duration: 0.5, delay: 0.8 }}
+                                >
                                     Project Management
-                                </h4>
-                                <p className="text-muted-foreground">
+                                </motion.h4>
+                                <motion.p 
+                                    className="text-muted-foreground"
+                                    initial={{ opacity: 0 }}
+                                    whileInView={{ opacity: 1 }}
+                                    transition={{ duration: 0.5, delay: 0.9 }}
+                                >
                                     Leading projects from conception to
                                     completion with agile methodologies.
-                                </p>
+                                </motion.p>
                             </div>
                         </div>
-                    </div>
-                </div>
+                    </motion.div>
+                </motion.div>
             </div>
         </TitleSection>
     );

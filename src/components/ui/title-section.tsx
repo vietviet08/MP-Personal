@@ -1,4 +1,7 @@
+"use client";
+
 import React from "react";
+import { motion } from "framer-motion";
 
 export default interface TitleSectionProps {
     id: string;
@@ -10,20 +13,40 @@ export default interface TitleSectionProps {
 
 export const TitleSection = (props: TitleSectionProps) => {
     return (
-        <section
+        <motion.section
             id={props.id}
             className={`relative min-h-[calc(100vh)] py-24 pb-24 px-[5vw] md:px-[7vw] lg:px-[20vw] font-sans bg-skills-gradient clip-path-custom ${props.className}`}
+            viewport={{ once: true }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
         >
-            <div className="text-center mb-8">
-                <h2 className="text-3xl md:text-4xl font-bold ">
+            <motion.div
+                className="text-center mb-8"
+                initial={{ opacity: 0, y: -20 }}
+                viewport={{ once: true }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+            >
+                <motion.h2
+                    className="text-3xl md:text-4xl font-bold"
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    transition={{ duration: 0.5, delay: 0.2 }}
+                >
                     {props.title}
-                </h2>
+                </motion.h2>
 
-                <p className="text-gray-400 mt-4 text-lg font-semibold">
+                <motion.p
+                    className="text-gray-400 mt-4 text-lg font-semibold"
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    transition={{ duration: 0.5, delay: 0.3 }}
+                >
                     {props.description}
-                </p>
-            </div>
+                </motion.p>
+            </motion.div>
             {props.children}
-        </section>
+        </motion.section>
     );
 };

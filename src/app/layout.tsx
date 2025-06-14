@@ -4,11 +4,6 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Header } from "@/components/Header/Header";
 import Footer from "@/components/Footer/Footer";
-import { HeroSection } from "@/components/Home/HeroSection";
-import { Skills } from "@/components/Skills/Skills";
-import { About } from "@/components/About/About";
-import { Projects } from "@/components/Projects/Projects";
-import { Contact } from "@/components/Contact/Contact";
 
 const geistSans = Geist({
     variable: "--font-poppins",
@@ -29,7 +24,11 @@ export const metadata: Metadata = {
         "Portfolio of Nguyen Quoc Viet, a software engineer specializing in web development.",
 };
 
-export default function RootLayout(): React.JSX.Element {
+export default function RootLayout({
+    children,
+}: Readonly<{
+    children: React.ReactNode;
+}>) {
     return (
         <html lang="en" suppressHydrationWarning>
             <body
@@ -47,12 +46,7 @@ export default function RootLayout(): React.JSX.Element {
                         <Header />
                         
                         <div className="flex-1 flex flex-col pt-16">
-                            <HeroSection />
-                            <About/>
-                            <Skills/>
-                            <Projects/>
-                            <Contact/>
-                            
+                            {children}
                         </div>
                         
                         <Footer/>

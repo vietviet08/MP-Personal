@@ -1,36 +1,45 @@
-'use client';
+"use client";
 
 import React from "react";
 import Image from "next/image";
 import { SkillsInfo } from "@/app/constants/constant";
 import Tilt from "react-parallax-tilt";
+import { motion } from "framer-motion";
+import { TitleSection } from "@/components/ui/title-section";
 
 export const Skills = () => {
     return (
-        <section
-            id="skills"
-            className="relative min-h-[calc(100vh-64px)] py-24 pb-24 px-[5vw] md:px-[7vw] lg:px-[20vw] font-sans bg-skills-gradient clip-path-custom"
+        <TitleSection
+            className="bg-gray-50 dark:bg-[#111827]"
+            id={"skills"}
+            title={"Skills"}
+            description="The skills, tools and technologies I am really good at"
         >
-            {/* Section Title */}
-            <div className="text-center mb-8">
-                <h2 className="text-3xl md:text-4xl font-bold ">Skills</h2>
-
-                <p className="text-gray-400 mt-4 text-lg font-semibold">
-                    The skills, tools and technologies I am really good at:
-                </p>
-            </div>
-
-            {/* Skills List */}
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <motion.div
+                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+                initial={{ opacity: 0 }}
+                viewport={{ once: true }}
+                whileInView={{ opacity: 1 }}
+                transition={{ duration: 0.5, delayChildren: 0.3 }}
+            >
                 {SkillsInfo.map((skillCategory, index) => (
-                    <div
+                    <motion.div
                         key={index}
                         className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg"
+                        viewport={{ once: true }}
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5, delay: index * 0.1 }}
+                        whileHover={{ scale: 1.02 }}
                     >
-                        <h3 className="text-2xl text-center font-semibold mb-4">
+                        <motion.h3
+                            className="text-2xl text-center font-semibold mb-4"
+                            initial={{ opacity: 0 }}
+                            whileInView={{ opacity: 1 }}
+                            transition={{ duration: 0.5, delay: 0.1 }}
+                        >
                             {skillCategory.title}
-                        </h3>
+                        </motion.h3>
                         <Tilt
                             key={skillCategory.title}
                             tiltMaxAngleX={20}
@@ -40,24 +49,57 @@ export const Skills = () => {
                             transitionSpeed={1000}
                             gyroscope={true}
                         >
-                            <div className="flex items-center justify-center flex-wrap gap-4">
+                            <motion.div
+                                className="flex items-center justify-center flex-wrap gap-4"
+                                initial={{ opacity: 0 }}
+                                whileInView={{ opacity: 1 }}
+                                transition={{
+                                    staggerChildren: 0.1,
+                                    delayChildren: 0.2,
+                                }}
+                            >
                                 {skillCategory.skills.map(
                                     (skill, skillIndex) => (
-                                        <Image
+                                        <motion.div
                                             key={skillIndex}
-                                            src={skill.logo}
-                                            alt={skill.name}
-                                            className="h-14 w-14 object-contain"
-                                            width={60}
-                                            height={60}
-                                        />
+                                            initial={{ opacity: 0, scale: 0.5 }}
+                                            whileInView={{
+                                                opacity: 1,
+                                                scale: 1,
+                                            }}
+                                            transition={{
+                                                type: "spring",
+                                                stiffness: 260,
+                                                damping: 20,
+                                                delay: skillIndex * 0.05 + 0.3,
+                                            }}
+                                            whileHover={{
+                                                scale: 1.15,
+                                                rotate: [0, 5, -5, 0],
+                                                transition: {
+                                                    rotate: {
+                                                        duration: 0.5,
+                                                        ease: "easeInOut",
+                                                        repeat: 0,
+                                                    },
+                                                },
+                                            }}
+                                        >
+                                            <Image
+                                                src={skill.logo}
+                                                alt={skill.name}
+                                                className="h-14 w-14 object-contain"
+                                                width={60}
+                                                height={60}
+                                            />
+                                        </motion.div>
                                     )
                                 )}
-                            </div>
+                            </motion.div>
                         </Tilt>
-                    </div>
+                    </motion.div>
                 ))}
-            </div>
-        </section>
+            </motion.div>
+        </TitleSection>
     );
 };
