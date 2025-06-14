@@ -29,11 +29,7 @@ export const metadata: Metadata = {
         "Portfolio of Nguyen Quoc Viet, a software engineer specializing in web development.",
 };
 
-export default function RootLayout({
-    children,
-}: Readonly<{
-    children: React.ReactNode;
-}>) {
+export default function RootLayout(): React.JSX.Element {
     return (
         <html lang="en" suppressHydrationWarning>
             <body

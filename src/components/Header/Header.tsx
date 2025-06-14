@@ -16,7 +16,7 @@ export const Header = () => {
     const [isScroll, setIsScroll] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
 
-    const handleMenuItemClick = (sectionId: any) => {
+    const handleMenuItemClick = (sectionId: string) => {
         setIsOpen(false);
 
         const section = document.getElementById(sectionId);

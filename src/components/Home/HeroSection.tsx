@@ -8,19 +8,19 @@ export const HeroSection = () => {
     const [isScrolling, setIsScrolling] = useState(false);
     const [showScrollIcon, setShowScrollIcon] = useState(true);
 
-    const handleScroll = () => {
-        if (!isScrolling) {
-            setIsScrolling(true);
-            setShowScrollIcon(false);
-
-            setTimeout(() => {
-                setIsScrolling(false);
-                setShowScrollIcon(true);
-            }, 2000);
-        }
-    };
-
     useEffect(() => {
+        const handleScroll = () => {
+            if (!isScrolling) {
+                setIsScrolling(true);
+                setShowScrollIcon(false);
+
+                setTimeout(() => {
+                    setIsScrolling(false);
+                    setShowScrollIcon(true);
+                }, 2000);
+            }
+        };
+        
         window.addEventListener("scroll", handleScroll);
         return () => {
             window.removeEventListener("scroll", handleScroll);
@@ -37,7 +37,7 @@ export const HeroSection = () => {
                     <h1 className="text-4xl md:text-6xl font-bold tracking-tight">
                         <span className="opacity-0 animate-fade-in">
                             {" "}
-                            Hi, I'm
+                            Hi, I&apos;m
                         </span>
                         <span className="text-primary opacity-0 animate-fade-in-delay-1">
                             {" "}

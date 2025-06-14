@@ -2,7 +2,6 @@ import { TitleSection } from "@/components/ui/title-section";
 import Image from "next/image";
 import React from "react";
 import { cn } from "@/lib/utils";
-import PicProject from "@/assets/pic-project.png";
 import { Badge } from "@/components/ui/badge";
 import { ExternalLink } from "lucide-react";
 import { ProjectsInfo } from "@/app/constants/constant";

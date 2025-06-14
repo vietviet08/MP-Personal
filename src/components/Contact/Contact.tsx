@@ -16,7 +16,7 @@ export const Contact = () => {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const notify = () =>
         toast("Thank you for your message. I'll get back to you soon.");
-    const handleSubmit = (e: any) => {
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         setIsSubmitting(true);
@@ -82,16 +82,13 @@ export const Contact = () => {
                     </div>
                 </div>
 
-                <div
-                    className=" rounded-lg shadow-xs"
-                    onSubmit={handleSubmit}
-                >
+                <div className="rounded-lg shadow-xs">
                     <h3 className="text-2xl font-semibold mb-6">
                         {" "}
                         Send a Message
                     </h3>
 
-                    <form className="space-y-6">
+                    <form className="space-y-6" onSubmit={handleSubmit}>
                         <div>
                             <label
                                 htmlFor="name"
