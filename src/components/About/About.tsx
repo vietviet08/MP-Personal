@@ -1,7 +1,7 @@
 "use client";
 
 import { TitleSection } from "@/components/ui/title-section";
-import { Binoculars, Briefcase, Code, HousePlus, User } from "lucide-react";
+import { Binoculars, Code, HousePlus } from "lucide-react";
 import React from "react";
 import { motion } from "framer-motion";
 
@@ -35,10 +35,11 @@ export const About = () => {
                         whileInView={{ opacity: 1 }}
                         transition={{ duration: 0.5, delay: 0.3 }}
                     >
-                        With extensive experience in software development, I 
-                        specialize in building robust web applications, implementing 
-                        DevOps practices, and integrating continuous delivery 
-                        pipelines to enhance development workflows.
+                        With extensive experience in software development, I
+                        specialize in building robust web applications,
+                        implementing DevOps practices, and integrating
+                        continuous delivery pipelines to enhance development
+                        workflows.
                     </motion.p>
 
                     <motion.p
@@ -47,11 +48,12 @@ export const About = () => {
                         whileInView={{ opacity: 1 }}
                         transition={{ duration: 0.5, delay: 0.5 }}
                     >
-                        My passion extends to researching AI and ML technologies, 
-                        where I explore innovative solutions that bridge cutting-edge 
-                        algorithms with practical software applications. I continuously 
-                        pursue knowledge in emerging technologies to deliver 
-                        high-quality, future-proof solutions.
+                        My passion extends to researching AI and ML
+                        technologies, where I explore innovative solutions that
+                        bridge cutting-edge algorithms with practical software
+                        applications. I continuously pursue knowledge in
+                        emerging technologies to deliver high-quality,
+                        future-proof solutions.
                     </motion.p>
                 </motion.div>
 
