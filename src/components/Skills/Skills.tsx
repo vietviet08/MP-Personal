@@ -10,7 +10,6 @@ import { TitleSection } from "@/components/ui/title-section";
 export const Skills = () => {
     return (
         <TitleSection
-            className="bg-gray-50 dark:bg-[#111827]"
             id={"skills"}
             title={"Skills"}
             description="The skills, tools and technologies I am really good at"

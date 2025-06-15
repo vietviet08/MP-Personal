@@ -4,7 +4,7 @@ import { ContactInfo } from "@/app/constants/constant";
 
 export default function Footer() {
     return (
-        <footer className="py-8 transition duration-300 px-[7vw] md:px-[7vw] lg:px-[20vw]">
+        <footer className="py-8 border-t transition duration-300 px-[7vw] md:px-[7vw] lg:px-[20vw]">
             <div className="container">
                 <div className="flex flex-col items-center justify-between gap-4">
                     <div className="text-sm text-gray-500 dark:text-gray-400">
