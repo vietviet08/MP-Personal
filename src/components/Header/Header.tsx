@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { ModeToggle } from "../theme-toggle/theme-toggle";
 import { GithubIcon, LinkedinIcon } from "lucide-react";
+import { ContactInfo } from "@/app/constants/constant";
 
 export const Header = () => {
     const menuItems = [
@@ -73,7 +74,7 @@ export const Header = () => {
 
                 <div className="hidden md:flex items-center gap-4">
                     <a
-                        href="https://github.com/vietviet08"
+                        href={ContactInfo.socialLinks.github}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="flex items-center justify-center"
@@ -82,7 +83,7 @@ export const Header = () => {
                         <GithubIcon className="h-6 w-6 text-gray-700 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400 transition-colors" />
                     </a>
                     <a
-                        href="https://linkedin.com/i/viequoc08"
+                        href={ContactInfo.socialLinks.linkedin}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="flex items-center justify-center"

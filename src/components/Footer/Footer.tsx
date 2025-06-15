@@ -1,5 +1,6 @@
 import { Facebook, Instagram, Linkedin, Twitter, Youtube } from "lucide-react";
 import React from "react";
+import { ContactInfo } from "@/app/constants/constant";
 
 export default function Footer() {
     return (
@@ -12,31 +13,31 @@ export default function Footer() {
                     </div>
                     <div className="flex items-center gap-4">
                         <a
-                            href=""
+                            href={ContactInfo.socialLinks.facebook}
                             className="text-gray-500 dark:text-gray-400 hover:text-blue-500 dark:hover:text-blue-400 transition-colors"
                         >
                             <Facebook/>
                         </a>
                         <a
-                            href=""
+                            href={ContactInfo.socialLinks.instagram}
                             className="text-gray-500 dark:text-gray-400 hover:text-blue-500 dark:hover:text-blue-400 transition-colors"
                         >
                             <Instagram/>
                         </a>
                         <a
-                            href=""
+                            href={ContactInfo.socialLinks.linkedin}
                             className="text-gray-500 dark:text-gray-400 hover:text-blue-500 dark:hover:text-blue-400 transition-colors"
                         >
                             <Linkedin/>
                         </a>
                          <a
-                            href=""
+                            href={ContactInfo.socialLinks.youtube}
                             className="text-gray-500 dark:text-gray-400 hover:text-blue-500 dark:hover:text-blue-400 transition-colors"
                         >
                             <Youtube/>
                         </a>
                          <a
-                            href=""
+                            href={ContactInfo.socialLinks.twitter}
                             className="text-gray-500 dark:text-gray-400 hover:text-blue-500 dark:hover:text-blue-400 transition-colors"
                         >
                             <Twitter/>
