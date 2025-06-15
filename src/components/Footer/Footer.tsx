@@ -14,30 +14,40 @@ export default function Footer() {
                     <div className="flex items-center gap-4">
                         <a
                             href={ContactInfo.socialLinks.facebook}
+                            target="_blank"
+                            rel="noopener noreferrer"
                             className="text-gray-500 dark:text-gray-400 hover:text-blue-500 dark:hover:text-blue-400 transition-colors"
                         >
                             <Facebook/>
                         </a>
                         <a
                             href={ContactInfo.socialLinks.instagram}
+                            target="_blank"
+                            rel="noopener noreferrer"
                             className="text-gray-500 dark:text-gray-400 hover:text-blue-500 dark:hover:text-blue-400 transition-colors"
                         >
                             <Instagram/>
                         </a>
                         <a
                             href={ContactInfo.socialLinks.linkedin}
+                            target="_blank"
+                            rel="noopener noreferrer"
                             className="text-gray-500 dark:text-gray-400 hover:text-blue-500 dark:hover:text-blue-400 transition-colors"
                         >
                             <Linkedin/>
                         </a>
                          <a
                             href={ContactInfo.socialLinks.youtube}
+                            target="_blank"
+                            rel="noopener noreferrer"
                             className="text-gray-500 dark:text-gray-400 hover:text-blue-500 dark:hover:text-blue-400 transition-colors"
                         >
                             <Youtube/>
                         </a>
                          <a
                             href={ContactInfo.socialLinks.twitter}
+                            target="_blank"
+                            rel="noopener noreferrer"
                             className="text-gray-500 dark:text-gray-400 hover:text-blue-500 dark:hover:text-blue-400 transition-colors"
                         >
                             <Twitter/>
