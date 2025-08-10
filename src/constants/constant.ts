@@ -27,6 +27,17 @@ import flask from "@/assets/Flask.svg";
 import redis from "@/assets/Redis.svg";
 import kafka from "@/assets/Apache Kafka.svg";
 import boostrap from "@/assets/Bootstrap.svg";
+import vue from "@/assets/vue.svg";
+import bitbucket from "@/assets/bitbucket.svg";
+import nuxt from "@/assets/nuxt.svg";
+import scss from "@/assets/scss.svg";
+import fastapi from "@/assets/FastAPI.svg";
+import firebase from "@/assets/firebase.svg";
+import supabase from "@/assets/supabase.svg";
+import liquibase from "@/assets/Liquibase.svg";
+import linux from "@/assets/linux.svg";
+import digitalocean from "@/assets/digital-ocean.svg";
+import gcp from "@/assets/gcp.svg";
 
 import PicProject1 from "@/assets/pic-project-1.png";
 import PicProject2 from "@/assets/pic-project-2.png";
@@ -48,9 +59,11 @@ export const SkillsInfo = [
         skills: [
             { name: "HTML", logo: html },
             { name: "CSS", logo: css },
+            { name: "SCSS", logo: scss },
             { name: "React", logo: react },
             { name: "Next.js", logo: nextjs },
-            { name: "Express.js", logo: expressjs },
+            { name: "Vue", logo: vue },
+            { name: "Nuxt.js", logo: nuxt },
             { name: "Tailwind CSS", logo: tailwindcss },
             { name: "Bootstrap", logo: boostrap },
         ],
@@ -60,9 +73,11 @@ export const SkillsInfo = [
         skills: [
             { name: "Spring Boot", logo: spring },
             { name: "Node.js", logo: nodejs },
+            { name: "FastAPI", logo: fastapi },
             { name: "Express.js", logo: expressjs },
             { name: "Django", logo: django },
             { name: "Flask", logo: flask },
+            { name: "Supabase", logo: supabase },
             { name: "Redis", logo: redis },
             { name: "Kafka", logo: kafka },
         ],
@@ -73,15 +88,21 @@ export const SkillsInfo = [
             { name: "MySQL", logo: mysql },
             { name: "PostgreSQL", logo: postgresql },
             { name: "MongoDB", logo: mongodb },
+            { name: "Firebase", logo: firebase },
+            { name: "Supabase", logo: supabase },
+            { name: "Liquibase", logo: liquibase },
         ],
     },
     {
         title: "DevOps & Cloud",
         skills: [
+            { name: "Linux", logo: linux },
             { name: "Docker", logo: docker },
             { name: "Kubernetes", logo: kubernetes },
             { name: "AWS", logo: aws },
             { name: "Azure", logo: azure },
+            { name: "GCP", logo: gcp },
+            { name: "DigitalOcean", logo: digitalocean },
         ],
     },
     {
@@ -89,6 +110,7 @@ export const SkillsInfo = [
         skills: [
             { name: "Git", logo: git },
             { name: "GitHub", logo: github },
+            { name: "Bitbucket", logo: bitbucket },
             { name: "GitLab", logo: gitlab },
         ],
     },

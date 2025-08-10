@@ -9,7 +9,7 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import { Bounce, ToastContainer, toast } from "react-toastify";
 
-import { ContactInfo } from "@/app/constants/constant";
+import { ContactInfo } from "@/constants/constant";
 
 export const Contact = () => {
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -19,7 +19,9 @@ export const Contact = () => {
         message: "",
     });
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const handleChange = (
+        e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    ) => {
         const { name, value } = e.target;
         setFormData((prev) => ({
             ...prev,
@@ -62,7 +64,10 @@ export const Contact = () => {
                     message: "",
                 });
             } else {
-                toast.error(data.error || "Failed to send message. Please try again later.");
+                toast.error(
+                    data.error ||
+                        "Failed to send message. Please try again later."
+                );
             }
         } catch (error) {
             console.error("Error sending message:", error);

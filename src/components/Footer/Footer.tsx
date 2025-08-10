@@ -1,6 +1,6 @@
 import { Facebook, Instagram, Linkedin, Twitter, Youtube } from "lucide-react";
 import React from "react";
-import { ContactInfo } from "@/app/constants/constant";
+import { ContactInfo } from "@/constants/constant";
 
 export default function Footer() {
     return (
@@ -18,7 +18,7 @@ export default function Footer() {
                             rel="noopener noreferrer"
                             className="text-gray-500 dark:text-gray-400 hover:text-blue-500 dark:hover:text-blue-400 transition-colors"
                         >
-                            <Facebook/>
+                            <Facebook />
                         </a>
                         <a
                             href={ContactInfo.socialLinks.instagram}
@@ -26,7 +26,7 @@ export default function Footer() {
                             rel="noopener noreferrer"
                             className="text-gray-500 dark:text-gray-400 hover:text-blue-500 dark:hover:text-blue-400 transition-colors"
                         >
-                            <Instagram/>
+                            <Instagram />
                         </a>
                         <a
                             href={ContactInfo.socialLinks.linkedin}
@@ -34,23 +34,23 @@ export default function Footer() {
                             rel="noopener noreferrer"
                             className="text-gray-500 dark:text-gray-400 hover:text-blue-500 dark:hover:text-blue-400 transition-colors"
                         >
-                            <Linkedin/>
+                            <Linkedin />
                         </a>
-                         <a
+                        <a
                             href={ContactInfo.socialLinks.youtube}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="text-gray-500 dark:text-gray-400 hover:text-blue-500 dark:hover:text-blue-400 transition-colors"
                         >
-                            <Youtube/>
+                            <Youtube />
                         </a>
-                         <a
+                        <a
                             href={ContactInfo.socialLinks.twitter}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="text-gray-500 dark:text-gray-400 hover:text-blue-500 dark:hover:text-blue-400 transition-colors"
                         >
-                            <Twitter/>
+                            <Twitter />
                         </a>
                     </div>
                     <div className="text-sm text-gray-500 dark:text-gray-400">

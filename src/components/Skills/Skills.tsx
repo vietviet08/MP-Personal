@@ -2,7 +2,7 @@
 
 import React from "react";
 import Image from "next/image";
-import { SkillsInfo } from "@/app/constants/constant";
+import { SkillsInfo } from "@/constants/constant";
 import Tilt from "react-parallax-tilt";
 import { motion } from "framer-motion";
 import { TitleSection } from "@/components/ui/title-section";

@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { ModeToggle } from "../theme-toggle/theme-toggle";
 import { GithubIcon, LinkedinIcon } from "lucide-react";
-import { ContactInfo } from "@/app/constants/constant";
+import { ContactInfo } from "@/constants/constant";
 
 export const Header = () => {
     const menuItems = [
@@ -62,8 +62,9 @@ export const Header = () => {
                         {menuItems.map((item) => (
                             <a
                                 key={item.name}
-                                
-                                onClick={() => handleMenuItemClick(item.href.slice(1))}
+                                onClick={() =>
+                                    handleMenuItemClick(item.href.slice(1))
+                                }
                                 className="text-lg text-gray-700 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400 transition-colors"
                             >
                                 {item.name}
@@ -128,7 +129,9 @@ export const Header = () => {
                                     <a
                                         className="text-lg hover:text-blue-500 transition-colors"
                                         onClick={() => {
-                                            handleMenuItemClick(item.href.slice(1));
+                                            handleMenuItemClick(
+                                                item.href.slice(1)
+                                            );
                                             setIsOpen(false);
                                         }}
                                     >
