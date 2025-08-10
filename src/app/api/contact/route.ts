@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 import { Resend } from "resend";
-import { ContactInfo } from "@/app/constants/constant";
+import { ContactInfo } from "@/constants/constant";
 import { ContactRepo } from "@/lib/supabase";
 
 const emailService = process.env.EMAIL_SERVICE || "gmail";
