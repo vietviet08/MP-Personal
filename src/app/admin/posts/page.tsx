@@ -7,31 +7,22 @@ import { Pagination } from "@/components/ui/pagination";
 import { MessageFilters } from "@/components/ui/message-filters";
 import { ConfirmationModal } from "@/components/ui/confirmation-modal";
 import { ToastContainer, useToast } from "@/components/ui/toast";
-import {
-    FileText,
-    User,
-    Calendar,
-    Edit,
-    Trash2,
-    Plus,
-    Eye,
-} from "lucide-react";
+import { FileText, Calendar, Edit, Trash2, Plus, Eye } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { fetchWithAuth } from "@/lib/api-client";
 
 type Post = {
     id: number;
-    title: string;
-    content: string;
-    excerpt: string;
     slug: string;
+    title: string;
+    excerpt: string | null;
+    content: string | null;
+    cover_image_url: string | null;
     status: "draft" | "published" | "archived";
-    author: string;
+    reading_time_minutes: number | null;
+    published_at: string | null;
     created_at: string;
     updated_at: string;
-    published_at: string | null;
-    tags: string[];
-    view_count: number;
 };
 
 type PaginationData = {
@@ -347,16 +338,17 @@ export default function AdminPosts() {
                                                             )}
                                                         </div>
                                                         <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">
-                                                            {post.excerpt}
+                                                            {post.excerpt ||
+                                                                "Không có mô tả ngắn"}
                                                         </p>
                                                     </div>
                                                     <div className="flex items-center space-x-2 ml-4">
                                                         <div className="flex items-center space-x-1 text-xs text-gray-500 dark:text-gray-400">
                                                             <Eye className="w-3 h-3" />
                                                             <span>
-                                                                {
-                                                                    post.view_count
-                                                                }
+                                                                {post.reading_time_minutes
+                                                                    ? `${post.reading_time_minutes} phút`
+                                                                    : "N/A"}
                                                             </span>
                                                         </div>
                                                         <div className="flex items-center space-x-1 text-xs text-gray-500 dark:text-gray-400">
@@ -372,52 +364,26 @@ export default function AdminPosts() {
 
                                                 <div className="flex items-center justify-between">
                                                     <div className="flex items-center space-x-2">
-                                                        <User className="w-4 h-4 text-gray-400" />
-                                                        <span className="text-sm text-gray-600 dark:text-gray-400">
-                                                            {post.author}
-                                                        </span>
-                                                        {post.tags.length >
-                                                            0 && (
-                                                            <>
-                                                                <span className="text-gray-400">
-                                                                    •
-                                                                </span>
-                                                                <div className="flex space-x-1">
-                                                                    {post.tags
-                                                                        .slice(
-                                                                            0,
-                                                                            3
-                                                                        )
-                                                                        .map(
-                                                                            (
-                                                                                tag,
-                                                                                idx
-                                                                            ) => (
-                                                                                <span
-                                                                                    key={
-                                                                                        idx
-                                                                                    }
-                                                                                    className="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded text-xs text-gray-600 dark:text-gray-400"
-                                                                                >
-                                                                                    {
-                                                                                        tag
-                                                                                    }
-                                                                                </span>
-                                                                            )
-                                                                        )}
-                                                                    {post.tags
-                                                                        .length >
-                                                                        3 && (
-                                                                        <span className="text-xs text-gray-500">
-                                                                            +
-                                                                            {post
-                                                                                .tags
-                                                                                .length -
-                                                                                3}
-                                                                        </span>
+                                                        {post.published_at && (
+                                                            <div className="flex items-center space-x-1 text-sm text-gray-600 dark:text-gray-400">
+                                                                <Calendar className="w-4 h-4 text-gray-400" />
+                                                                <span>
+                                                                    Xuất bản:{" "}
+                                                                    {new Date(
+                                                                        post.published_at
+                                                                    ).toLocaleDateString(
+                                                                        "vi-VN"
                                                                     )}
-                                                                </div>
-                                                            </>
+                                                                </span>
+                                                            </div>
+                                                        )}
+                                                        {post.cover_image_url && (
+                                                            <div className="flex items-center space-x-1 text-sm text-gray-600 dark:text-gray-400">
+                                                                <FileText className="w-4 h-4 text-gray-400" />
+                                                                <span>
+                                                                    Có ảnh bìa
+                                                                </span>
+                                                            </div>
                                                         )}
                                                     </div>
 

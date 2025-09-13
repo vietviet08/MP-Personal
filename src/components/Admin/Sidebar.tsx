@@ -267,8 +267,8 @@ export default function AdminSidebar() {
             {/* Enhanced Toggle Button */}
             <button
                 onClick={toggleSidebar}
-                className={`fixed top-6 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-full w-12 h-12 flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 cursor-pointer z-50 backdrop-blur-sm ${
-                    isCollapsed ? "left-[3.5rem]" : "left-[17.5rem]"
+                className={`fixed bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-full w-8 h-8 flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 cursor-pointer z-50 backdrop-blur-sm ${
+                    isCollapsed ? "left-[3rem] top-16" : "left-[17rem] top-20"
                 }`}
                 title={isCollapsed ? "Mở rộng sidebar" : "Thu gọn sidebar"}
             >

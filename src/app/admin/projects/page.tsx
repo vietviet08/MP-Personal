@@ -23,20 +23,20 @@ import { fetchWithAuth } from "@/lib/api-client";
 
 type Project = {
     id: number;
+    slug: string;
     title: string;
-    description: string;
-    short_description: string;
-    image_url: string | null;
+    short_description: string | null;
+    content: string | null;
+    repo_url: string | null;
     live_url: string | null;
-    github_url: string | null;
-    status: "active" | "completed" | "archived" | "in_progress";
-    priority: "low" | "medium" | "high";
-    technologies: string[];
+    cover_image_url: string | null;
+    featured: boolean;
+    status: "draft" | "published" | "archived";
+    start_date: string | null;
+    end_date: string | null;
+    order_index: number;
     created_at: string;
     updated_at: string;
-    completed_at: string | null;
-    featured: boolean;
-    order_index: number;
 };
 
 type PaginationData = {
@@ -190,56 +190,23 @@ export default function AdminProjects() {
 
     const getStatusBadge = (status: string) => {
         const statusConfig = {
-            active: {
+            draft: {
+                color: "bg-gray-100 text-gray-800 dark:bg-gray-900/30 dark:text-gray-400",
+                label: "Bản nháp",
+            },
+            published: {
                 color: "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400",
-                label: "Hoạt động",
-            },
-            completed: {
-                color: "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400",
-                label: "Hoàn thành",
-            },
-            in_progress: {
-                color: "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400",
-                label: "Đang phát triển",
+                label: "Đã xuất bản",
             },
             archived: {
-                color: "bg-gray-100 text-gray-800 dark:bg-gray-900/30 dark:text-gray-400",
+                color: "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400",
                 label: "Đã lưu trữ",
             },
         };
 
         const config =
             statusConfig[status as keyof typeof statusConfig] ||
-            statusConfig.active;
-
-        return (
-            <span
-                className={`px-2 py-1 rounded-full text-xs font-medium ${config.color}`}
-            >
-                {config.label}
-            </span>
-        );
-    };
-
-    const getPriorityBadge = (priority: string) => {
-        const priorityConfig = {
-            low: {
-                color: "bg-gray-100 text-gray-800 dark:bg-gray-900/30 dark:text-gray-400",
-                label: "Thấp",
-            },
-            medium: {
-                color: "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400",
-                label: "Trung bình",
-            },
-            high: {
-                color: "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400",
-                label: "Cao",
-            },
-        };
-
-        const config =
-            priorityConfig[priority as keyof typeof priorityConfig] ||
-            priorityConfig.medium;
+            statusConfig.draft;
 
         return (
             <span
@@ -370,9 +337,11 @@ export default function AdminProjects() {
                                     >
                                         <div className="flex items-start space-x-4">
                                             <div className="flex-shrink-0">
-                                                {project.image_url ? (
+                                                {project.cover_image_url ? (
                                                     <Image
-                                                        src={project.image_url}
+                                                        src={
+                                                            project.cover_image_url
+                                                        }
                                                         alt={project.title}
                                                         className="w-16 h-16 rounded-lg object-cover bg-gray-100 dark:bg-gray-700"
                                                     />
@@ -396,14 +365,10 @@ export default function AdminProjects() {
                                                             {getStatusBadge(
                                                                 project.status
                                                             )}
-                                                            {getPriorityBadge(
-                                                                project.priority
-                                                            )}
                                                         </div>
                                                         <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">
-                                                            {
-                                                                project.short_description
-                                                            }
+                                                            {project.short_description ||
+                                                                "Không có mô tả ngắn"}
                                                         </p>
                                                     </div>
                                                     <div className="flex items-center space-x-1 text-xs text-gray-500 dark:text-gray-400 ml-4">
@@ -418,42 +383,15 @@ export default function AdminProjects() {
 
                                                 <div className="flex items-center justify-between">
                                                     <div className="flex items-center space-x-2">
-                                                        {project.technologies
-                                                            .length > 0 && (
-                                                            <div className="flex space-x-1">
-                                                                {project.technologies
-                                                                    .slice(0, 4)
-                                                                    .map(
-                                                                        (
-                                                                            tech,
-                                                                            idx
-                                                                        ) => (
-                                                                            <span
-                                                                                key={
-                                                                                    idx
-                                                                                }
-                                                                                className="px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded text-xs text-gray-600 dark:text-gray-400"
-                                                                            >
-                                                                                {
-                                                                                    tech
-                                                                                }
-                                                                            </span>
-                                                                        )
-                                                                    )}
-                                                                {project
-                                                                    .technologies
-                                                                    .length >
-                                                                    4 && (
-                                                                    <span className="text-xs text-gray-500">
-                                                                        +
-                                                                        {project
-                                                                            .technologies
-                                                                            .length -
-                                                                            4}
-                                                                    </span>
-                                                                )}
-                                                            </div>
-                                                        )}
+                                                        <span className="text-xs text-gray-500 dark:text-gray-400">
+                                                            {project.start_date
+                                                                ? new Date(
+                                                                      project.start_date
+                                                                  ).toLocaleDateString(
+                                                                      "vi-VN"
+                                                                  )
+                                                                : "Chưa có ngày bắt đầu"}
+                                                        </span>
                                                     </div>
 
                                                     <div className="flex items-center space-x-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
@@ -479,13 +417,13 @@ export default function AdminProjects() {
                                                                 <ExternalLink className="w-4 h-4" />
                                                             </Button>
                                                         )}
-                                                        {project.github_url && (
+                                                        {project.repo_url && (
                                                             <Button
                                                                 variant="ghost"
                                                                 size="sm"
                                                                 onClick={() =>
                                                                     window.open(
-                                                                        project.github_url!,
+                                                                        project.repo_url!,
                                                                         "_blank"
                                                                     )
                                                                 }

@@ -31,7 +31,7 @@ export async function GET(request: NextRequest) {
         let query = supabase
             .from("projects")
             .select(
-                "id, title, description, short_description, image_url, live_url, github_url, status, priority, technologies, created_at, updated_at, completed_at, featured, order_index",
+                "id, slug, title, short_description, content, repo_url, live_url, cover_image_url, featured, status, start_date, end_date, order_index, created_at, updated_at",
                 {
                     count: "exact",
                 }
@@ -40,7 +40,7 @@ export async function GET(request: NextRequest) {
         // Add search filter if provided
         if (search) {
             query = query.or(
-                `title.ilike.%${search}%,description.ilike.%${search}%,short_description.ilike.%${search}%`
+                `title.ilike.%${search}%,content.ilike.%${search}%,short_description.ilike.%${search}%`
             );
         }
 

@@ -14,21 +14,21 @@ export async function GET(request: NextRequest) {
         const page = parseInt(searchParams.get("page") || "1");
         const limit = parseInt(searchParams.get("limit") || "10");
         const featured = searchParams.get("featured") === "true";
-        const status = searchParams.get("status") || "active";
+        const status = searchParams.get("status") || "published";
 
         // Calculate offset for pagination
         const offset = (page - 1) * limit;
 
-        // Build query - only show published/active projects
+        // Build query - only show published projects
         let query = supabase
             .from("projects")
             .select(
-                "id, title, description, short_description, image_url, live_url, github_url, status, technologies, created_at, featured, order_index",
+                "id, slug, title, short_description, content, repo_url, live_url, cover_image_url, featured, status, start_date, end_date, order_index, created_at",
                 {
                     count: "exact",
                 }
             )
-            .eq("status", status); // Only show active projects
+            .eq("status", status); // Only show projects with specified status
 
         // Filter by featured if requested
         if (featured) {

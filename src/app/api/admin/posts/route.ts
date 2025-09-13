@@ -31,7 +31,7 @@ export async function GET(request: NextRequest) {
         let query = supabase
             .from("posts")
             .select(
-                "id, title, content, excerpt, slug, status, author, created_at, updated_at, published_at, tags, view_count",
+                "id, slug, title, excerpt, content, cover_image_url, status, reading_time_minutes, published_at, created_at, updated_at",
                 {
                     count: "exact",
                 }
@@ -40,7 +40,7 @@ export async function GET(request: NextRequest) {
         // Add search filter if provided
         if (search) {
             query = query.or(
-                `title.ilike.%${search}%,content.ilike.%${search}%,excerpt.ilike.%${search}%,author.ilike.%${search}%`
+                `title.ilike.%${search}%,content.ilike.%${search}%,excerpt.ilike.%${search}%`
             );
         }
 

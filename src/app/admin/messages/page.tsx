@@ -184,7 +184,7 @@ export default function AdminMessages() {
         return (
             <main className="h-screen flex flex-col overflow-hidden">
                 {/* Header - Fixed */}
-                <div className="flex-shrink-0 flex items-center space-x-3 mb-6 px-6 pt-6">
+                <div className="flex-shrink-0 flex items-center space-x-3 mb-6">
                     <div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
                         <MessageSquare className="w-6 h-6 text-blue-600 dark:text-blue-400" />
                     </div>
@@ -192,7 +192,7 @@ export default function AdminMessages() {
                 </div>
 
                 {/* Content Container - Flex grow */}
-                <div className="flex-1 flex flex-col mx-6 mb-6 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm overflow-hidden">
+                <div className="flex-1 flex flex-col bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm overflow-hidden">
                     {/* Filters - Fixed */}
                     <div className="flex-shrink-0">
                         <MessageFilters
@@ -233,7 +233,7 @@ export default function AdminMessages() {
     return (
         <main className="h-screen flex flex-col overflow-hidden">
             {/* Header - Fixed */}
-            <div className="flex-shrink-0 flex items-center space-x-3 mb-6 px-6 pt-6">
+            <div className="flex-shrink-0 flex items-center space-x-3 mb-6">
                 <div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
                     <MessageSquare className="w-6 h-6 text-blue-600 dark:text-blue-400" />
                 </div>
@@ -246,7 +246,7 @@ export default function AdminMessages() {
             </div>
 
             {/* Content Container - Flex grow */}
-            <div className="flex-1 flex flex-col mx-6 mb-6 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm overflow-hidden">
+            <div className="flex-1 flex flex-col bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm overflow-hidden">
                 {/* Filters - Fixed */}
                 <div className="flex-shrink-0">
                     <MessageFilters

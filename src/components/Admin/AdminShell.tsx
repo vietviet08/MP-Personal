@@ -65,7 +65,7 @@ export default function AdminShell({
             <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 text-foreground">
                 <AdminSidebar />
                 <main
-                    className={`p-8 overflow-auto transition-all duration-300 ease-in-out ${
+                    className={`p-6 transition-all duration-300 ease-in-out ${
                         isCollapsed ? "ml-16" : "ml-72"
                     }`}
                 >
