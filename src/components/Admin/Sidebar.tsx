@@ -14,6 +14,13 @@ import {
     BarChart3,
     ChevronLeft,
     ChevronRight,
+    Database,
+    Award,
+    GraduationCap,
+    Briefcase,
+    Code,
+    Tag,
+    Quote,
 } from "lucide-react";
 import styles from "./Sidebar.module.css";
 import { useSidebar } from "./AdminShell";
@@ -58,6 +65,42 @@ export default function AdminSidebar() {
             description: "Tin nhắn liên hệ",
         },
         {
+            href: "/admin/certificates",
+            label: "Chứng chỉ",
+            icon: Award,
+            description: "Quản lý chứng chỉ",
+        },
+        {
+            href: "/admin/educations",
+            label: "Học vấn",
+            icon: GraduationCap,
+            description: "Quản lý học vấn",
+        },
+        {
+            href: "/admin/experiences",
+            label: "Kinh nghiệm",
+            icon: Briefcase,
+            description: "Quản lý kinh nghiệm",
+        },
+        {
+            href: "/admin/skills",
+            label: "Kỹ năng",
+            icon: Code,
+            description: "Quản lý kỹ năng",
+        },
+        {
+            href: "/admin/tags",
+            label: "Thẻ",
+            icon: Tag,
+            description: "Quản lý thẻ",
+        },
+        {
+            href: "/admin/testimonials",
+            label: "Đánh giá",
+            icon: Quote,
+            description: "Quản lý đánh giá",
+        },
+        {
             href: "/admin/analytics",
             label: "Thống kê",
             icon: BarChart3,
@@ -68,6 +111,12 @@ export default function AdminSidebar() {
             label: "Cài đặt",
             icon: Settings,
             description: "Cấu hình hệ thống",
+        },
+        {
+            href: "/admin/setup",
+            label: "Setup DB",
+            icon: Database,
+            description: "Thiết lập database",
         },
     ];
 

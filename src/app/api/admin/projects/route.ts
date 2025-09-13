@@ -29,15 +29,18 @@ export async function GET(request: NextRequest) {
 
         // Build query
         let query = supabase
-            .from("contact_messages")
-            .select("id, name, email, subject, message, created_at", {
-                count: "exact",
-            });
+            .from("projects")
+            .select(
+                "id, title, description, short_description, image_url, live_url, github_url, status, priority, technologies, created_at, updated_at, completed_at, featured, order_index",
+                {
+                    count: "exact",
+                }
+            );
 
         // Add search filter if provided
         if (search) {
             query = query.or(
-                `name.ilike.%${search}%,email.ilike.%${search}%,subject.ilike.%${search}%,message.ilike.%${search}%`
+                `title.ilike.%${search}%,description.ilike.%${search}%,short_description.ilike.%${search}%`
             );
         }
 
@@ -53,7 +56,7 @@ export async function GET(request: NextRequest) {
         if (error) {
             console.error("Database error:", error);
             return NextResponse.json(
-                { error: "Failed to fetch messages" },
+                { error: "Failed to fetch projects" },
                 { status: 500 }
             );
         }
@@ -75,7 +78,7 @@ export async function GET(request: NextRequest) {
             },
         });
     } catch (error) {
-        console.error("Error fetching messages:", error);
+        console.error("Error fetching projects:", error);
         return NextResponse.json(
             { error: "Internal server error" },
             { status: 500 }
@@ -101,27 +104,24 @@ export async function DELETE(request: NextRequest) {
 
         if (!id) {
             return NextResponse.json(
-                { error: "Message ID is required" },
+                { error: "Project ID is required" },
                 { status: 400 }
             );
         }
 
-        const { error } = await supabase
-            .from("contact_messages")
-            .delete()
-            .eq("id", id);
+        const { error } = await supabase.from("projects").delete().eq("id", id);
 
         if (error) {
             console.error("Delete error:", error);
             return NextResponse.json(
-                { error: "Failed to delete message" },
+                { error: "Failed to delete project" },
                 { status: 500 }
             );
         }
 
         return NextResponse.json({ success: true });
     } catch (error) {
-        console.error("Error deleting message:", error);
+        console.error("Error deleting project:", error);
         return NextResponse.json(
             { error: "Internal server error" },
             { status: 500 }

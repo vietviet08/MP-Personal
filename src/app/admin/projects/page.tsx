@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { useAuthGuard } from "@/hooks/useAuthGuard";
 import { MessagesSkeleton } from "@/components/ui/message-skeleton";
 import { Pagination } from "@/components/ui/pagination";
@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import { fetchWithAuth } from "@/lib/api-client";
 
 type Project = {
     id: number;
@@ -51,6 +52,10 @@ export default function AdminProjects() {
     const { loading: authLoading } = useAuthGuard();
     const { toasts, showSuccess, showError, removeToast } = useToast();
     const [projects, setProjects] = useState<Project[]>([]);
+
+    // Use ref to store toast functions to avoid dependency issues
+    const toastRef = useRef({ showError, showSuccess });
+    toastRef.current = { showError, showSuccess };
     const [isLoading, setIsLoading] = useState(true);
     const [pagination, setPagination] = useState<PaginationData>({
         currentPage: 1,
@@ -84,13 +89,21 @@ export default function AdminProjects() {
                     sortOrder,
                 });
 
-                const response = await fetch(`/api/admin/projects?${params}`);
+                const response = await fetchWithAuth(
+                    `/api/admin/projects?${params}`
+                );
                 if (response.ok) {
                     const result = await response.json();
                     setProjects(result.data || []);
                     if (result.pagination) {
                         setPagination(result.pagination);
                     }
+                } else {
+                    const errorData = await response.json();
+                    toastRef.current.showError(
+                        "Lỗi tải dữ liệu",
+                        errorData.error || "Không thể tải dự án"
+                    );
                 }
             } catch (error) {
                 console.error("Error fetching projects:", error);
@@ -114,7 +127,7 @@ export default function AdminProjects() {
 
         try {
             setDeletingId(projectToDelete.id);
-            const response = await fetch(
+            const response = await fetchWithAuth(
                 `/api/admin/projects?id=${projectToDelete.id}`,
                 {
                     method: "DELETE",
@@ -134,13 +147,16 @@ export default function AdminProjects() {
                 await fetchProjects(targetPage);
                 setShowDeleteModal(false);
                 setProjectToDelete(null);
-                showSuccess("Dự án đã được xóa thành công.");
+                toastRef.current.showSuccess("Dự án đã được xóa thành công.");
             } else {
-                showError("Không thể xóa dự án", "Vui lòng thử lại sau.");
+                toastRef.current.showError(
+                    "Không thể xóa dự án",
+                    "Vui lòng thử lại sau."
+                );
             }
         } catch (error) {
             console.error("Error deleting project:", error);
-            showError(
+            toastRef.current.showError(
                 "Đã xảy ra lỗi",
                 "Không thể xóa dự án. Vui lòng thử lại sau."
             );
@@ -235,18 +251,14 @@ export default function AdminProjects() {
     };
 
     useEffect(() => {
+        if (authLoading) return;
+
         const timer = setTimeout(() => {
             fetchProjects(1);
         }, 300);
 
         return () => clearTimeout(timer);
-    }, [search, sortBy, sortOrder, fetchProjects]);
-
-    useEffect(() => {
-        if (!authLoading) {
-            fetchProjects(1);
-        }
-    }, [authLoading, fetchProjects]);
+    }, [authLoading, search, sortBy, sortOrder, fetchProjects]);
 
     if (authLoading) {
         return (

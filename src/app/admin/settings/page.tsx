@@ -1,15 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useAuthGuard } from "@/hooks/useAuthGuard";
 import { ToastContainer, useToast } from "@/components/ui/toast";
 import {
     Settings,
     User,
-    Mail,
     Globe,
     Shield,
-    Palette,
     Database,
     Bell,
     Save,
@@ -18,6 +16,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { fetchWithAuth } from "@/lib/api-client";
 
 type SettingsData = {
     profile: {
@@ -65,33 +64,33 @@ export default function AdminSettings() {
         [key: string]: boolean;
     }>({});
 
-    const fetchSettings = async () => {
+    const fetchSettings = useCallback(async () => {
         if (authLoading) return;
 
         try {
             setIsLoading(true);
-            const response = await fetch("/api/admin/settings");
+            const response = await fetchWithAuth("/api/admin/settings");
             if (response.ok) {
                 const data = await response.json();
                 setSettings(data);
+            } else {
+                const errorData = await response.json();
+                console.error("Settings error:", errorData.error);
             }
         } catch (error) {
             console.error("Error fetching settings:", error);
         } finally {
             setTimeout(() => setIsLoading(false), 300);
         }
-    };
+    }, [authLoading]);
 
     const saveSettings = async () => {
         if (!settings) return;
 
         try {
             setIsSaving(true);
-            const response = await fetch("/api/admin/settings", {
+            const response = await fetchWithAuth("/api/admin/settings", {
                 method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                },
                 body: JSON.stringify(settings),
             });
 
@@ -114,7 +113,7 @@ export default function AdminSettings() {
     const updateSettings = (
         section: keyof SettingsData,
         field: string,
-        value: any
+        value: string
     ) => {
         if (!settings) return;
         setSettings({
@@ -137,7 +136,7 @@ export default function AdminSettings() {
         if (!authLoading) {
             fetchSettings();
         }
-    }, [authLoading]);
+    }, [authLoading, fetchSettings]);
 
     const tabs = [
         { id: "profile", label: "Hồ sơ", icon: User },
@@ -451,7 +450,7 @@ export default function AdminSettings() {
                                                     updateSettings(
                                                         "security",
                                                         "twoFactorEnabled",
-                                                        e.target.checked
+                                                        e.target.checked.toString()
                                                     )
                                                 }
                                                 className="sr-only peer"
@@ -480,7 +479,7 @@ export default function AdminSettings() {
                                                     updateSettings(
                                                         "security",
                                                         "loginNotifications",
-                                                        e.target.checked
+                                                        e.target.checked.toString()
                                                     )
                                                 }
                                                 className="sr-only peer"
@@ -502,7 +501,9 @@ export default function AdminSettings() {
                                                 updateSettings(
                                                     "security",
                                                     "sessionTimeout",
-                                                    parseInt(e.target.value)
+                                                    parseInt(
+                                                        e.target.value
+                                                    ).toString()
                                                 )
                                             }
                                             placeholder="30"
@@ -539,7 +540,7 @@ export default function AdminSettings() {
                                                     updateSettings(
                                                         "notifications",
                                                         "emailNotifications",
-                                                        e.target.checked
+                                                        e.target.checked.toString()
                                                     )
                                                 }
                                                 className="sr-only peer"
@@ -569,7 +570,7 @@ export default function AdminSettings() {
                                                     updateSettings(
                                                         "notifications",
                                                         "newMessageAlerts",
-                                                        e.target.checked
+                                                        e.target.checked.toString()
                                                     )
                                                 }
                                                 className="sr-only peer"
@@ -599,7 +600,7 @@ export default function AdminSettings() {
                                                     updateSettings(
                                                         "notifications",
                                                         "systemUpdates",
-                                                        e.target.checked
+                                                        e.target.checked.toString()
                                                     )
                                                 }
                                                 className="sr-only peer"
@@ -628,7 +629,7 @@ export default function AdminSettings() {
                                                     updateSettings(
                                                         "notifications",
                                                         "weeklyReports",
-                                                        e.target.checked
+                                                        e.target.checked.toString()
                                                     )
                                                 }
                                                 className="sr-only peer"

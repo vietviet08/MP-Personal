@@ -11,6 +11,7 @@ import {
     Globe,
     Clock,
 } from "lucide-react";
+import { apiClient } from "@/lib/api-client";
 
 type AnalyticsData = {
     overview: {
@@ -53,13 +54,10 @@ export default function AdminAnalytics() {
 
         try {
             setIsLoading(true);
-            const response = await fetch(
+            const data = await apiClient.get(
                 `/api/admin/analytics?range=${timeRange}`
             );
-            if (response.ok) {
-                const data = await response.json();
-                setAnalytics(data);
-            }
+            setAnalytics(data);
         } catch (error) {
             console.error("Error fetching analytics:", error);
         } finally {
@@ -68,10 +66,8 @@ export default function AdminAnalytics() {
     }, [authLoading, timeRange]);
 
     useEffect(() => {
-        if (!authLoading) {
-            fetchAnalytics();
-        }
-    }, [authLoading, timeRange, fetchAnalytics]);
+        fetchAnalytics();
+    }, [fetchAnalytics]);
 
     const getActivityIcon = (type: string) => {
         switch (type) {

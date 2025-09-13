@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { useAuthGuard } from "@/hooks/useAuthGuard";
 import { MessagesSkeleton } from "@/components/ui/message-skeleton";
 import { Pagination } from "@/components/ui/pagination";
@@ -17,6 +17,7 @@ import {
     Eye,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { fetchWithAuth } from "@/lib/api-client";
 
 type Post = {
     id: number;
@@ -46,6 +47,10 @@ export default function AdminPosts() {
     const { loading: authLoading } = useAuthGuard();
     const { toasts, showSuccess, showError, removeToast } = useToast();
     const [posts, setPosts] = useState<Post[]>([]);
+
+    // Use ref to store toast functions to avoid dependency issues
+    const toastRef = useRef({ showError, showSuccess });
+    toastRef.current = { showError, showSuccess };
     const [isLoading, setIsLoading] = useState(true);
     const [pagination, setPagination] = useState<PaginationData>({
         currentPage: 1,
@@ -77,13 +82,21 @@ export default function AdminPosts() {
                     sortOrder,
                 });
 
-                const response = await fetch(`/api/admin/posts?${params}`);
+                const response = await fetchWithAuth(
+                    `/api/admin/posts?${params}`
+                );
                 if (response.ok) {
                     const result = await response.json();
                     setPosts(result.data || []);
                     if (result.pagination) {
                         setPagination(result.pagination);
                     }
+                } else {
+                    const errorData = await response.json();
+                    toastRef.current.showError(
+                        "Lỗi tải dữ liệu",
+                        errorData.error || "Không thể tải bài viết"
+                    );
                 }
             } catch (error) {
                 console.error("Error fetching posts:", error);
@@ -107,7 +120,7 @@ export default function AdminPosts() {
 
         try {
             setDeletingId(postToDelete.id);
-            const response = await fetch(
+            const response = await fetchWithAuth(
                 `/api/admin/posts?id=${postToDelete.id}`,
                 {
                     method: "DELETE",
@@ -127,13 +140,18 @@ export default function AdminPosts() {
                 await fetchPosts(targetPage);
                 setShowDeleteModal(false);
                 setPostToDelete(null);
-                showSuccess("Bài viết đã được xóa thành công.");
+                toastRef.current.showSuccess(
+                    "Bài viết đã được xóa thành công."
+                );
             } else {
-                showError("Không thể xóa bài viết", "Vui lòng thử lại sau.");
+                toastRef.current.showError(
+                    "Không thể xóa bài viết",
+                    "Vui lòng thử lại sau."
+                );
             }
         } catch (error) {
             console.error("Error deleting post:", error);
-            showError(
+            toastRef.current.showError(
                 "Đã xảy ra lỗi",
                 "Không thể xóa bài viết. Vui lòng thử lại sau."
             );
@@ -195,18 +213,14 @@ export default function AdminPosts() {
     };
 
     useEffect(() => {
+        if (authLoading) return;
+
         const timer = setTimeout(() => {
             fetchPosts(1);
         }, 300);
 
         return () => clearTimeout(timer);
-    }, [search, sortBy, sortOrder, fetchPosts]);
-
-    useEffect(() => {
-        if (!authLoading) {
-            fetchPosts(1);
-        }
-    }, [authLoading, fetchPosts]);
+    }, [authLoading, search, sortBy, sortOrder, fetchPosts]);
 
     if (authLoading) {
         return (
