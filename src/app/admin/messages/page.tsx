@@ -1,14 +1,14 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
-import { useRequireAuth } from "@/hooks/useRequireAuth";
-import { MessagesSkeleton } from "@/components/ui/message-skeleton";
-import { Pagination } from "@/components/ui/pagination";
-import { MessageFilters } from "@/components/ui/message-filters";
-import { ConfirmationModal } from "@/components/ui/confirmation-modal";
-import { ToastContainer, useToast } from "@/components/ui/toast";
-import { Mail, User, Calendar, MessageSquare, Trash2 } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import {useEffect, useState, useCallback} from "react";
+import {useAuthGuard} from "@/hooks/useAuthGuard";
+import {MessagesSkeleton} from "@/components/ui/message-skeleton";
+import {Pagination} from "@/components/ui/pagination";
+import {MessageFilters} from "@/components/ui/message-filters";
+import {ConfirmationModal} from "@/components/ui/confirmation-modal";
+import {ToastContainer, useToast} from "@/components/ui/toast";
+import {Mail, User, Calendar, MessageSquare, Trash2} from "lucide-react";
+import {Button} from "@/components/ui/button";
 
 type ContactMessage = {
     id: number;
@@ -29,8 +29,8 @@ type PaginationData = {
 };
 
 export default function AdminMessages() {
-    const { loading: authLoading } = useRequireAuth();
-    const { toasts, showSuccess, showError, removeToast } = useToast();
+    const {loading: authLoading} = useAuthGuard();
+    const {toasts, showSuccess, showError, removeToast} = useToast();
     const [messages, setMessages] = useState<ContactMessage[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [pagination, setPagination] = useState<PaginationData>({
@@ -154,7 +154,7 @@ export default function AdminMessages() {
 
     useEffect(() => {
         const timer = setTimeout(() => {
-            fetchMessages(1);
+            fetchMessages(1)
         }, 300);
 
         return () => clearTimeout(timer);
@@ -168,15 +168,16 @@ export default function AdminMessages() {
 
     if (authLoading) {
         return (
-            <main className="py-10">
+            <main >
                 <div className="flex items-center space-x-3 mb-6">
                     <div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
-                        <MessageSquare className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+                        <MessageSquare className="w-6 h-6 text-blue-600 dark:text-blue-400"/>
                     </div>
                     <h1 className="text-2xl font-semibold">Contact Messages</h1>
                 </div>
 
-                <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm overflow-hidden">
+                <div
+                    className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm overflow-hidden">
                     <MessageFilters
                         search={search}
                         onSearchChange={setSearch}
@@ -184,42 +185,44 @@ export default function AdminMessages() {
                         sortOrder={sortOrder}
                         onSortChange={handleSortChange}
                         onClearFilters={handleClearFilters}
-                        totalItems={pagination.totalItems}
+                        totalItems={0}
                     />
 
-                    <MessagesSkeleton />
+                    <MessagesSkeleton/>
 
                     <Pagination
-                        currentPage={pagination.currentPage}
-                        totalPages={pagination.totalPages}
-                        onPageChange={handlePageChange}
-                        hasNextPage={pagination.hasNextPage}
-                        hasPrevPage={pagination.hasPrevPage}
-                        totalItems={pagination.totalItems}
-                        itemsPerPage={pagination.itemsPerPage}
+                        currentPage={1}
+                        totalPages={0}
+                        onPageChange={() => {}}
+                        hasNextPage={false}
+                        hasPrevPage={false}
+                        totalItems={0}
+                        itemsPerPage={10}
                     />
                 </div>
 
-                <ToastContainer toasts={toasts} onRemove={removeToast} />
+                <ToastContainer toasts={toasts} onRemove={removeToast}/>
             </main>
         );
     }
 
     return (
-        <main className="py-10">
+        <main >
             <div className="flex items-center space-x-3 mb-6">
                 <div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
-                    <MessageSquare className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+                    <MessageSquare className="w-6 h-6 text-blue-600 dark:text-blue-400"/>
                 </div>
                 <h1 className="text-2xl font-semibold">Contact Messages</h1>
                 {pagination.totalItems > 0 && (
-                    <span className="px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded-full text-sm text-gray-600 dark:text-gray-400">
+                    <span
+                        className="px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded-full text-sm text-gray-600 dark:text-gray-400">
                         {pagination.totalItems}
                     </span>
                 )}
             </div>
 
-            <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm overflow-hidden">
+            <div
+                className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm overflow-hidden">
                 <MessageFilters
                     search={search}
                     onSearchChange={setSearch}
@@ -230,13 +233,15 @@ export default function AdminMessages() {
                     totalItems={pagination.totalItems}
                 />
 
-                {!isLoading && (
+                {isLoading ? (
+                    <MessagesSkeleton/>
+                ) : (
                     <>
                         {messages.length === 0 ? (
                             <div className="p-12 text-center">
                                 <div className="flex flex-col items-center space-y-4">
                                     <div className="p-4 bg-gray-100 dark:bg-gray-700 rounded-full">
-                                        <Mail className="w-8 h-8 text-gray-400" />
+                                        <Mail className="w-8 h-8 text-gray-400"/>
                                     </div>
                                     <div>
                                         <h3 className="text-lg font-medium text-gray-900 dark:text-white">
@@ -263,8 +268,9 @@ export default function AdminMessages() {
                                         }}
                                     >
                                         <div className="flex items-start space-x-4">
-                                            <div className="flex-shrink-0 p-2 bg-gradient-to-br from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 rounded-lg">
-                                                <User className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                                            <div
+                                                className="flex-shrink-0 p-2 bg-gradient-to-br from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 rounded-lg">
+                                                <User className="w-5 h-5 text-blue-600 dark:text-blue-400"/>
                                             </div>
 
                                             <div className="flex-1 min-w-0 space-y-3">
@@ -284,8 +290,9 @@ export default function AdminMessages() {
                                                         </a>
                                                     </div>
                                                     <div className="flex items-center space-x-2">
-                                                        <div className="flex items-center space-x-1 text-xs text-gray-500 dark:text-gray-400">
-                                                            <Calendar className="w-3 h-3" />
+                                                        <div
+                                                            className="flex items-center space-x-1 text-xs text-gray-500 dark:text-gray-400">
+                                                            <Calendar className="w-3 h-3"/>
                                                             <span>
                                                                 {new Date(
                                                                     m.created_at
@@ -309,17 +316,20 @@ export default function AdminMessages() {
                                                         >
                                                             {deletingId ===
                                                             m.id ? (
-                                                                <div className="w-4 h-4 border-2 border-red-600 border-t-transparent rounded-full animate-spin" />
+                                                                <div
+                                                                    className="w-4 h-4 border-2 border-red-600 border-t-transparent rounded-full animate-spin"/>
                                                             ) : (
-                                                                <Trash2 className="w-4 h-4" />
+                                                                <Trash2 className="w-4 h-4"/>
                                                             )}
                                                         </Button>
                                                     </div>
                                                 </div>
 
                                                 {m.subject && (
-                                                    <div className="px-3 py-1 bg-gray-100 dark:bg-gray-700 rounded-md inline-block">
-                                                        <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                                                    <div
+                                                        className="px-3 py-1 bg-gray-100 dark:bg-gray-700 rounded-md inline-block">
+                                                        <span
+                                                            className="text-sm font-medium text-gray-700 dark:text-gray-300">
                                                             {m.subject}
                                                         </span>
                                                     </div>
@@ -362,7 +372,7 @@ export default function AdminMessages() {
                 isLoading={deletingId !== null}
             />
 
-            <ToastContainer toasts={toasts} onRemove={removeToast} />
+            <ToastContainer toasts={toasts} onRemove={removeToast}/>
         </main>
     );
 }

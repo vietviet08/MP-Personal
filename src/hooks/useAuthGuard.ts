@@ -5,9 +5,6 @@ import { useRouter, usePathname } from "next/navigation";
 import { getSupabaseBrowserClient } from "@/lib/supabase";
 import type { Session, User } from "@supabase/supabase-js";
 
-/**
- * Hook optimized để tránh flash content khi check auth
- */
 export function useAuthGuard() {
     const router = useRouter();
     const pathname = usePathname();
@@ -37,7 +34,6 @@ export function useAuthGuard() {
                     setIsAuthenticated(false);
                     setLoading(false);
 
-                    // Chỉ redirect nếu đang ở trang admin (không phải login)
                     if (isAdminPage) {
                         router.replace("/admin/login");
                     }
@@ -55,16 +51,17 @@ export function useAuthGuard() {
                 setIsAuthenticated(false);
                 setLoading(false);
 
-                // Chỉ redirect nếu đang ở trang admin (không phải login)
                 if (isAdminPage) {
                     router.replace("/admin/login");
                 }
             }
         }
 
-        initAuth();
+        initAuth().then(() => {
+            if (!isMounted) return;
+            setLoading(false);
+        });
 
-        // Listen cho auth state changes
         const { data: authListener } = supabase.auth.onAuthStateChange(
             (event, sess) => {
                 if (!isMounted) return;
@@ -74,14 +71,12 @@ export function useAuthGuard() {
                 setUser(sess?.user ?? null);
                 setIsAuthenticated(hasSession);
 
-                // Chỉ redirect khi thực sự logout
                 if (!hasSession && event === "SIGNED_OUT") {
                     if (isAdminPage) {
                         router.replace("/admin/login");
                     }
                 }
 
-                // Nếu đăng nhập thành công và đang ở trang login, redirect về admin
                 if (hasSession && pathname === "/admin/login") {
                     router.replace("/admin");
                 }

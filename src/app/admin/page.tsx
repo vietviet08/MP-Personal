@@ -23,7 +23,8 @@ export default function AdminDashboard() {
 
             {/* Stats Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div className="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-lg border border-slate-200 dark:border-slate-700">
+                <div
+                    className="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-lg border border-slate-200 dark:border-slate-700">
                     <div className="flex items-center justify-between">
                         <div>
                             <p className="text-sm font-medium text-slate-600 dark:text-slate-400">
@@ -33,7 +34,8 @@ export default function AdminDashboard() {
                                 24
                             </p>
                         </div>
-                        <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center">
+                        <div
+                            className="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center">
                             <svg
                                 className="w-6 h-6 text-blue-600 dark:text-blue-400"
                                 fill="none"
@@ -67,7 +69,8 @@ export default function AdminDashboard() {
                     </div>
                 </div>
 
-                <div className="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-lg border border-slate-200 dark:border-slate-700">
+                <div
+                    className="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-lg border border-slate-200 dark:border-slate-700">
                     <div className="flex items-center justify-between">
                         <div>
                             <p className="text-sm font-medium text-slate-600 dark:text-slate-400">
@@ -77,7 +80,8 @@ export default function AdminDashboard() {
                                 18
                             </p>
                         </div>
-                        <div className="w-12 h-12 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center">
+                        <div
+                            className="w-12 h-12 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center">
                             <svg
                                 className="w-6 h-6 text-green-600 dark:text-green-400"
                                 fill="none"
@@ -111,7 +115,8 @@ export default function AdminDashboard() {
                     </div>
                 </div>
 
-                <div className="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-lg border border-slate-200 dark:border-slate-700">
+                <div
+                    className="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-lg border border-slate-200 dark:border-slate-700">
                     <div className="flex items-center justify-between">
                         <div>
                             <p className="text-sm font-medium text-slate-600 dark:text-slate-400">
@@ -121,7 +126,8 @@ export default function AdminDashboard() {
                                 7
                             </p>
                         </div>
-                        <div className="w-12 h-12 bg-purple-100 dark:bg-purple-900/30 rounded-lg flex items-center justify-center">
+                        <div
+                            className="w-12 h-12 bg-purple-100 dark:bg-purple-900/30 rounded-lg flex items-center justify-center">
                             <svg
                                 className="w-6 h-6 text-purple-600 dark:text-purple-400"
                                 fill="none"
@@ -155,7 +161,8 @@ export default function AdminDashboard() {
                     </div>
                 </div>
 
-                <div className="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-lg border border-slate-200 dark:border-slate-700">
+                <div
+                    className="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-lg border border-slate-200 dark:border-slate-700">
                     <div className="flex items-center justify-between">
                         <div>
                             <p className="text-sm font-medium text-slate-600 dark:text-slate-400">
@@ -165,7 +172,8 @@ export default function AdminDashboard() {
                                 2.4K
                             </p>
                         </div>
-                        <div className="w-12 h-12 bg-orange-100 dark:bg-orange-900/30 rounded-lg flex items-center justify-center">
+                        <div
+                            className="w-12 h-12 bg-orange-100 dark:bg-orange-900/30 rounded-lg flex items-center justify-center">
                             <svg
                                 className="w-6 h-6 text-orange-600 dark:text-orange-400"
                                 fill="none"
@@ -207,7 +215,8 @@ export default function AdminDashboard() {
             </div>
 
             {/* Recent Activity */}
-            <div className="bg-white dark:bg-slate-800 rounded-xl shadow-lg border border-slate-200 dark:border-slate-700">
+            <div
+                className="bg-white dark:bg-slate-800 rounded-xl shadow-lg border border-slate-200 dark:border-slate-700">
                 <div className="p-6 border-b border-slate-200 dark:border-slate-700">
                     <h2 className="text-lg font-semibold text-slate-900 dark:text-white">
                         Hoạt động gần đây
@@ -246,8 +255,8 @@ export default function AdminDashboard() {
                                         item.type === "post"
                                             ? "bg-blue-500"
                                             : item.type === "project"
-                                              ? "bg-green-500"
-                                              : "bg-purple-500"
+                                                ? "bg-green-500"
+                                                : "bg-purple-500"
                                     }`}
                                 ></div>
                                 <div className="flex-1">
