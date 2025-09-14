@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
 interface AIGenerateRequest {
     excerpt: string;
@@ -9,6 +10,16 @@ interface AIGenerateResponse {
     excerpt: string;
     content: string;
     cover_image_url: string;
+}
+
+// Lazy initialize Gemini client
+function getGeminiClient() {
+    if (!process.env.GEMINI_API_KEY) {
+        throw new Error("Gemini API key is not configured");
+    }
+
+    const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+    return genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 }
 
 // Hàm để tạo từ khóa từ excerpt để tạo cover image URL
@@ -61,128 +72,84 @@ function extractKeywords(text: string): string {
     return words.join(",") || "blog,article";
 }
 
-// Hàm sinh nội dung blog từ excerpt
-function generateBlogContent(excerpt: string): AIGenerateResponse {
+// Hàm sinh nội dung blog từ excerpt sử dụng Google Gemini
+async function generateBlogContent(
+    excerpt: string
+): Promise<AIGenerateResponse> {
     if (!excerpt || excerpt.trim().length === 0) {
         throw new Error("Excerpt is required");
     }
 
-    // Tạo tiêu đề từ excerpt
-    const title =
-        excerpt.length > 50 ? excerpt.substring(0, 50).trim() + "..." : excerpt;
+    try {
+        const model = getGeminiClient();
 
-    // Cải thiện excerpt (giữ nguyên hoặc cải thiện nhẹ)
-    const improvedExcerpt = excerpt.trim().endsWith(".")
-        ? excerpt.trim()
-        : excerpt.trim() + ".";
+        const prompt = `Bạn là một AI chuyên viết blog chuyên nghiệp. Hãy tạo một bài viết blog hoàn chỉnh dựa trên excerpt sau: "${excerpt}"
 
-    // Tạo keywords cho cover image
-    const keywords = extractKeywords(excerpt);
+Yêu cầu:
+- Tạo tiêu đề hấp dẫn, ngắn gọn, chuẩn SEO
+- Cải thiện excerpt thành mô tả ngắn gọn (1-3 câu), dễ đọc, chuẩn SEO  
+- Viết nội dung blog chi tiết 800-1200 từ bằng tiếng Việt
+- Sử dụng cấu trúc markdown với heading (##, ###)
+- Nội dung phải có giá trị, thông tin chính xác, dễ hiểu
+- Bao gồm: giới thiệu, phân tích chi tiết, ví dụ thực tế, kết luận
+- Tránh nội dung chung chung, hãy cụ thể và chuyên sâu
 
-    // Sinh nội dung blog chi tiết
-    const content = `# ${title}
+Trả về ĐÚNG định dạng JSON sau (không thêm markdown formatting hoặc text nào khác):
+{
+  "title": "tiêu đề hấp dẫn",
+  "excerpt": "mô tả ngắn gọn đã cải thiện",
+  "content": "nội dung blog đầy đủ với markdown formatting",
+  "cover_image_url": "https://source.unsplash.com/1600x900/?keyword1,keyword2"
+}
 
-${improvedExcerpt}
+Chỉ trả về JSON thuần túy, không có text giải thích hay markdown wrapper.`;
 
-## Giới thiệu
+        const result = await model.generateContent(prompt);
 
-Trong bài viết này, chúng ta sẽ tìm hiểu chi tiết về chủ đề được đề cập trong excerpt. Đây là một chủ đề thú vị và có nhiều khía cạnh đáng khám phá.
+        const response = result.response;
+        const text = response.text();
 
-## Tầm quan trọng của vấn đề
+        if (!text) {
+            throw new Error("Gemini returned empty response");
+        }
 
-Vấn đề được nêu ra không chỉ có ý nghĩa lý thuyết mà còn có ứng dụng thực tiễn cao. Việc hiểu rõ và nắm vững các khái niệm cơ bản sẽ giúp chúng ta:
+        // Parse JSON response from Gemini
+        let parsedResult: AIGenerateResponse;
+        try {
+            // Clean response text - remove markdown code blocks if present
+            const cleanText = text.replace(/```json\n?|\n?```/g, "").trim();
+            parsedResult = JSON.parse(cleanText);
+        } catch {
+            console.error(
+                "Failed to parse Gemini response:",
+                text.substring(0, 200)
+            );
+            throw new Error("Gemini returned invalid JSON format");
+        }
 
-- Có cái nhìn tổng quan về chủ đề
-- Áp dụng kiến thức vào thực tế
-- Phát triển tư duy phản biện
-- Mở rộng hiểu biết trong lĩnh vực liên quan
+        // Validate the result
+        if (
+            !parsedResult.title ||
+            !parsedResult.content ||
+            !parsedResult.excerpt
+        ) {
+            console.error("Gemini returned incomplete data:", parsedResult);
+            throw new Error("Gemini returned incomplete blog content");
+        }
 
-## Phân tích chi tiết
+        // Ensure cover_image_url exists
+        if (!parsedResult.cover_image_url) {
+            const keywords = extractKeywords(excerpt);
+            parsedResult.cover_image_url = `https://source.unsplash.com/1600x900/?${keywords}`;
+        }
 
-### Khía cạnh thứ nhất
-
-Đây là một trong những khía cạnh quan trọng nhất của chủ đề. Chúng ta cần xem xét kỹ lưỡng các yếu tố ảnh hưởng và mối quan hệ giữa chúng.
-
-Các điểm chính cần lưu ý:
-1. Nguyên lý cơ bản
-2. Ứng dụng thực tế  
-3. Lợi ích và hạn chế
-4. Hướng phát triển tương lai
-
-### Khía cạnh thứ hai
-
-Một góc nhìn khác không kém phần thú vị là việc phân tích từ khía cạnh này. Nó bổ sung và làm phong phú thêm cách hiểu của chúng ta về vấn đề.
-
-## Ví dụ thực tế
-
-Để minh họa cho những lý thuyết đã trình bày, hãy cùng xem xét một số ví dụ cụ thể:
-
-**Ví dụ 1:** Trường hợp điển hình cho thấy cách áp dụng kiến thức vào thực tế một cách hiệu quả.
-
-**Ví dụ 2:** Một tình huống phức tạp hơn đòi hỏi sự linh hoạt trong cách tiếp cận.
-
-## So sánh và đối chiếu
-
-| Tiêu chí | Phương pháp A | Phương pháp B |
-|----------|---------------|---------------|
-| Hiệu quả | Cao | Trung bình |
-| Chi phí | Thấp | Cao |
-| Thời gian | Nhanh | Chậm |
-| Độ phức tạp | Đơn giản | Phức tạp |
-
-## Kinh nghiệm và bài học
-
-Qua quá trình nghiên cứu và thực hành, chúng ta có thể rút ra một số bài học quý giá:
-
-- **Kiên nhẫn và kiên trì:** Không có thành công nào đến một cách dễ dàng
-- **Học hỏi liên tục:** Luôn cập nhật kiến thức và kỹ năng mới
-- **Thực hành thường xuyên:** Lý thuyết phải đi đôi với thực hành
-- **Chia sẻ kiến thức:** Giúp đỡ người khác cũng là cách học tập
-
-## Những thách thức và cách khắc phục
-
-Mọi lĩnh vực đều có những thách thức riêng. Việc nhận diện sớm và có phương pháp khắc phục phù hợp sẽ giúp chúng ta tiến bộ nhanh hơn.
-
-### Thách thức phổ biến:
-- Thiếu kiến thức nền tảng
-- Khó khăn trong việc áp dụng lý thuyết
-- Áp lực thời gian và kết quả
-- Sự thay đổi nhanh chóng của công nghệ
-
-### Giải pháp đề xuất:
-- Xây dựng lộ trình học tập có hệ thống
-- Tìm mentor và cộng đồng hỗ trợ
-- Thực hành với các dự án thực tế
-- Luôn cập nhật xu hướng mới
-
-## Kết luận
-
-Qua bài viết này, chúng ta đã cùng nhau khám phá nhiều khía cạnh thú vị của chủ đề. Hy vọng rằng những kiến thức và kinh nghiệm được chia sẻ sẽ hữu ích cho bạn trong hành trình học tập và phát triển.
-
-Hãy nhớ rằng, việc học không bao giờ dừng lại. Mỗi ngày đều là một cơ hội để chúng ta hoàn thiện bản thân và đạt được những mục tiêu đã đề ra.
-
-## Tài liệu tham khảo
-
-- Nguồn tin cậy trong lĩnh vực
-- Nghiên cứu khoa học liên quan  
-- Kinh nghiệm từ các chuyên gia
-- Cộng đồng thảo luận trực tuyến
-
-*Bài viết này được tạo tự động từ excerpt bằng AI. Nội dung có thể được chỉnh sửa và bổ sung theo nhu cầu cụ thể.*`;
-
-    const result = {
-        title: title.trim(),
-        excerpt: improvedExcerpt.trim(),
-        content: content.trim(),
-        cover_image_url: `https://source.unsplash.com/1600x900/?${keywords}`,
-    };
-
-    // Validate the result before returning
-    if (!result.title || !result.content) {
-        throw new Error("Failed to generate valid blog content");
+        return parsedResult;
+    } catch (error) {
+        if (error instanceof Error) {
+            throw error;
+        }
+        throw new Error("Failed to generate blog content with Gemini");
     }
-
-    return result;
 }
 
 export async function POST(request: NextRequest) {
@@ -206,11 +173,15 @@ export async function POST(request: NextRequest) {
         // Sinh nội dung blog từ excerpt
         let generatedContent;
         try {
-            generatedContent = generateBlogContent(excerpt.trim());
+            generatedContent = await generateBlogContent(excerpt.trim());
         } catch (error) {
             console.error("Error in generateBlogContent:", error);
+            const errorMessage =
+                error instanceof Error ? error.message : "Unknown error";
             return NextResponse.json(
-                { error: "Failed to generate blog content" },
+                {
+                    error: `Failed to generate blog content with Gemini: ${errorMessage}`,
+                },
                 { status: 500 }
             );
         }
@@ -235,7 +206,7 @@ export async function POST(request: NextRequest) {
     } catch (error) {
         console.error("Error generating blog content:", error);
         return NextResponse.json(
-            { error: "Failed to generate blog content" },
+            { error: "Failed to generate blog content with Gemini" },
             { status: 500 }
         );
     }

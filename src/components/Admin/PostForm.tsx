@@ -500,7 +500,7 @@ const PostForm = forwardRef<PostFormRef, PostFormProps>(function PostForm(
                         <div className="flex gap-2">
                             <Select
                                 value={selectValue}
-                                onValueChange={(value) => {
+                                onValueChange={(value: string) => {
                                     const tag = availableTags.find(
                                         (t) => t.id === parseInt(value)
                                     );
