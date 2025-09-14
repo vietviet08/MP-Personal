@@ -11,31 +11,13 @@ import { ConfirmationModal } from "@/components/ui/confirmation-modal";
 import { MessageFilters } from "@/components/ui/message-filters";
 import { MessageSkeleton } from "@/components/ui/message-skeleton";
 import { TitleSection } from "@/components/ui/title-section";
-
-type Testimonial = {
-    id: number;
-    author_name: string;
-    author_role?: string;
-    company?: string;
-    avatar_url?: string;
-    content: string;
-    published: boolean;
-    sort_order: number;
-    created_at: string;
-};
-
-type PaginationData = {
-    page: number;
-    limit: number;
-    total: number;
-    total_pages: number;
-};
+import { Testimonial, LegacyPaginationData } from "@/lib/supabase/types";
 
 export default function AdminTestimonials() {
     useRequireAuth();
     const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
     const [loading, setLoading] = useState(true);
-    const [pagination, setPagination] = useState<PaginationData>({
+    const [pagination, setPagination] = useState<LegacyPaginationData>({
         page: 1,
         limit: 10,
         total: 0,

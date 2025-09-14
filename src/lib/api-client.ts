@@ -20,7 +20,12 @@ export async function fetchWithAuth(url: string, options: RequestInit = {}) {
     try {
         const headers = await getAuthHeaders();
 
-        const response = await fetch(url, {
+        // Ensure URL is absolute for client-side requests
+        const baseUrl =
+            typeof window !== "undefined" ? window.location.origin : "";
+        const fullUrl = url.startsWith("http") ? url : `${baseUrl}${url}`;
+
+        const response = await fetch(fullUrl, {
             ...options,
             headers: {
                 ...headers,
@@ -46,14 +51,32 @@ export async function fetchWithAuth(url: string, options: RequestInit = {}) {
     }
 }
 
+// Helper function to safely parse JSON response
+async function parseJsonResponse(response: Response) {
+    const text = await response.text();
+    try {
+        return JSON.parse(text);
+    } catch {
+        // If parsing fails, likely got HTML error page
+        console.error("Failed to parse JSON response:", text.substring(0, 200));
+        throw new Error(
+            `Server returned non-JSON response: ${response.status} ${response.statusText}`
+        );
+    }
+}
+
 // API Client wrapper with common methods
 export const apiClient = {
     async get(url: string) {
         const response = await fetchWithAuth(url);
         if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+            const errorText = await response.text();
+            console.error(`GET ${url} failed:`, errorText.substring(0, 200));
+            throw new Error(
+                `HTTP error! status: ${response.status} - ${response.statusText}`
+            );
         }
-        return response.json();
+        return parseJsonResponse(response);
     },
 
     async post(url: string, data: Record<string, unknown>) {
@@ -62,9 +85,13 @@ export const apiClient = {
             body: JSON.stringify(data),
         });
         if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+            const errorText = await response.text();
+            console.error(`POST ${url} failed:`, errorText.substring(0, 200));
+            throw new Error(
+                `HTTP error! status: ${response.status} - ${response.statusText}`
+            );
         }
-        return response.json();
+        return parseJsonResponse(response);
     },
 
     async put(url: string, data: Record<string, unknown>) {
@@ -73,9 +100,13 @@ export const apiClient = {
             body: JSON.stringify(data),
         });
         if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+            const errorText = await response.text();
+            console.error(`PUT ${url} failed:`, errorText.substring(0, 200));
+            throw new Error(
+                `HTTP error! status: ${response.status} - ${response.statusText}`
+            );
         }
-        return response.json();
+        return parseJsonResponse(response);
     },
 
     async delete(url: string) {
@@ -83,8 +114,12 @@ export const apiClient = {
             method: "DELETE",
         });
         if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+            const errorText = await response.text();
+            console.error(`DELETE ${url} failed:`, errorText.substring(0, 200));
+            throw new Error(
+                `HTTP error! status: ${response.status} - ${response.statusText}`
+            );
         }
-        return response.json();
+        return parseJsonResponse(response);
     },
 };

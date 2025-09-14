@@ -10,24 +10,7 @@ import { ToastContainer, useToast } from "@/components/ui/toast";
 import { Mail, User, Calendar, MessageSquare, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { fetchWithAuth } from "@/lib/api-client";
-
-type ContactMessage = {
-    id: number;
-    name: string;
-    email: string;
-    subject: string | null;
-    message: string;
-    created_at: string;
-};
-
-type PaginationData = {
-    currentPage: number;
-    totalPages: number;
-    totalItems: number;
-    itemsPerPage: number;
-    hasNextPage: boolean;
-    hasPrevPage: boolean;
-};
+import { ContactMessage, PaginationData } from "@/lib/supabase/types";
 
 export default function AdminMessages() {
     const { loading: authLoading } = useAuthGuard();

@@ -5,7 +5,7 @@ import { verifyPublicAuth } from "@/lib/auth";
 export async function GET(request: NextRequest) {
     try {
         // Optional authentication for analytics
-        const { user } = await verifyPublicAuth(request);
+        await verifyPublicAuth(request);
 
         const supabase = getSupabaseServerClient();
         const { searchParams } = new URL(request.url);
@@ -57,12 +57,6 @@ export async function GET(request: NextRequest) {
         const totalPages = Math.ceil((count || 0) / limit);
         const hasNextPage = page < totalPages;
         const hasPrevPage = page > 1;
-
-        // Log analytics if user is authenticated
-        if (user) {
-            // You can log project views here for analytics
-            console.log(`Authenticated user ${user.id} viewed projects`);
-        }
 
         return NextResponse.json({
             data: data || [],

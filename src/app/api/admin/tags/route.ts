@@ -28,12 +28,15 @@ export async function GET(request: NextRequest) {
             | "asc"
             | "desc";
 
-        const result = await fetchTags({
-            page,
-            limit,
-            sort_by,
-            sort_order,
-        });
+        const result = await fetchTags(
+            {
+                page,
+                limit,
+                sort_by,
+                sort_order,
+            },
+            true
+        );
 
         return NextResponse.json(result);
     } catch (error) {

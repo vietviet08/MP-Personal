@@ -11,28 +11,14 @@ import { ConfirmationModal } from "@/components/ui/confirmation-modal";
 import { MessageFilters } from "@/components/ui/message-filters";
 import { MessageSkeleton } from "@/components/ui/message-skeleton";
 import { TitleSection } from "@/components/ui/title-section";
-
-type Skill = {
-    id: number;
-    name: string;
-    category?: string;
-    level?: number;
-    icon_url?: string;
-    created_at: string;
-};
-
-type PaginationData = {
-    page: number;
-    limit: number;
-    total: number;
-    total_pages: number;
-};
+import { Skill, LegacyPaginationData } from "@/lib/supabase/types";
+import Image from "next/image";
 
 export default function AdminSkills() {
     useRequireAuth();
     const [skills, setSkills] = useState<Skill[]>([]);
     const [loading, setLoading] = useState(true);
-    const [pagination, setPagination] = useState<PaginationData>({
+    const [pagination, setPagination] = useState<LegacyPaginationData>({
         page: 1,
         limit: 10,
         total: 0,
@@ -175,10 +161,12 @@ export default function AdminSkills() {
                                 )}
                                 {skill.icon_url && (
                                     <div className="mt-2">
-                                        <img
+                                        <Image
                                             src={skill.icon_url}
                                             alt={skill.name}
                                             className="w-8 h-8 object-contain"
+                                            width={32}
+                                            height={32}
                                         />
                                     </div>
                                 )}

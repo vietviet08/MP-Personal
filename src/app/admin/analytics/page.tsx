@@ -12,36 +12,7 @@ import {
     Clock,
 } from "lucide-react";
 import { apiClient } from "@/lib/api-client";
-
-type AnalyticsData = {
-    overview: {
-        totalVisitors: number;
-        totalPageViews: number;
-        totalMessages: number;
-        totalProjects: number;
-        totalPosts: number;
-        bounceRate: number;
-        avgSessionDuration: string;
-    };
-    recentActivity: Array<{
-        id: number;
-        type: "visit" | "message" | "project_view" | "post_view";
-        description: string;
-        timestamp: string;
-        metadata?: unknown;
-    }>;
-    topPages: Array<{
-        page: string;
-        views: number;
-        uniqueVisitors: number;
-    }>;
-    monthlyStats: Array<{
-        month: string;
-        visitors: number;
-        pageViews: number;
-        messages: number;
-    }>;
-};
+import { AnalyticsData } from "@/lib/supabase/types";
 
 export default function AdminAnalytics() {
     const { loading: authLoading } = useAuthGuard();

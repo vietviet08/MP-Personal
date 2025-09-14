@@ -3,6 +3,24 @@ export type MessageStatus = "new" | "read" | "replied" | "archived";
 export type PostStatus = "draft" | "published" | "archived";
 export type ProjectStatus = "draft" | "published" | "archived";
 
+// Pagination Data
+export interface PaginationData {
+    currentPage: number;
+    totalPages: number;
+    totalItems: number;
+    itemsPerPage: number;
+    hasNextPage: boolean;
+    hasPrevPage: boolean;
+}
+
+// Legacy Pagination Data (for backward compatibility)
+export interface LegacyPaginationData {
+    page: number;
+    limit: number;
+    total: number;
+    total_pages: number;
+}
+
 // Base types
 export interface BaseEntity {
     id: number;
@@ -438,4 +456,35 @@ export interface ProjectFilters extends PaginationParams {
 export interface ContactMessageFilters extends PaginationParams {
     status?: MessageStatus;
     search?: string;
+}
+
+// Analytics types
+export interface AnalyticsData {
+    overview: {
+        totalVisitors: number;
+        totalPageViews: number;
+        totalMessages: number;
+        totalProjects: number;
+        totalPosts: number;
+        bounceRate: number;
+        avgSessionDuration: string;
+    };
+    recentActivity: Array<{
+        id: number;
+        type: "visit" | "message" | "project_view" | "post_view";
+        description: string;
+        timestamp: string;
+        metadata?: unknown;
+    }>;
+    topPages: Array<{
+        page: string;
+        views: number;
+        uniqueVisitors: number;
+    }>;
+    monthlyStats: Array<{
+        month: string;
+        visitors: number;
+        pageViews: number;
+        messages: number;
+    }>;
 }

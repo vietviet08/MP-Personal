@@ -1,4 +1,5 @@
 import { getSupabaseServerClient } from "../server-client";
+import { getSupabaseAdminClient } from "../admin-client";
 import type {
     Tag,
     CreateTagInput,
@@ -8,9 +9,12 @@ import type {
 } from "../types";
 
 export async function fetchTags(
-    params: PaginationParams = {}
+    params: PaginationParams = {},
+    useAdmin = false
 ): Promise<PaginatedResponse<Tag>> {
-    const supabase = getSupabaseServerClient();
+    const supabase = useAdmin
+        ? getSupabaseAdminClient()
+        : getSupabaseServerClient();
     const {
         page = 1,
         limit = 10,
@@ -76,7 +80,7 @@ export async function fetchTagBySlug(slug: string): Promise<Tag | null> {
 }
 
 export async function createTag(input: CreateTagInput): Promise<Tag> {
-    const supabase = getSupabaseServerClient();
+    const supabase = getSupabaseAdminClient();
     const { data, error } = await supabase
         .from("tags")
         .insert({
@@ -91,7 +95,7 @@ export async function createTag(input: CreateTagInput): Promise<Tag> {
 }
 
 export async function updateTag(input: UpdateTagInput): Promise<Tag> {
-    const supabase = getSupabaseServerClient();
+    const supabase = getSupabaseAdminClient();
     const { data, error } = await supabase
         .from("tags")
         .update({
@@ -107,7 +111,7 @@ export async function updateTag(input: UpdateTagInput): Promise<Tag> {
 }
 
 export async function deleteTag(id: number): Promise<void> {
-    const supabase = getSupabaseServerClient();
+    const supabase = getSupabaseAdminClient();
     const { error } = await supabase.from("tags").delete().eq("id", id);
 
     if (error) throw error;

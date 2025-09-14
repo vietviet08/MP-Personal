@@ -10,31 +10,13 @@ import { ConfirmationModal } from "@/components/ui/confirmation-modal";
 import { MessageFilters } from "@/components/ui/message-filters";
 import { MessageSkeleton } from "@/components/ui/message-skeleton";
 import { TitleSection } from "@/components/ui/title-section";
-
-type Education = {
-    id: number;
-    school: string;
-    degree?: string;
-    field?: string;
-    start_date?: string;
-    end_date?: string;
-    logo_url?: string;
-    sort_order: number;
-    created_at: string;
-};
-
-type PaginationData = {
-    page: number;
-    limit: number;
-    total: number;
-    total_pages: number;
-};
+import { Education, LegacyPaginationData } from "@/lib/supabase/types";
 
 export default function AdminEducations() {
     useRequireAuth();
     const [educations, setEducations] = useState<Education[]>([]);
     const [loading, setLoading] = useState(true);
-    const [pagination, setPagination] = useState<PaginationData>({
+    const [pagination, setPagination] = useState<LegacyPaginationData>({
         page: 1,
         limit: 10,
         total: 0,

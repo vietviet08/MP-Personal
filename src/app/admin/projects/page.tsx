@@ -20,33 +20,7 @@ import {
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { fetchWithAuth } from "@/lib/api-client";
-
-type Project = {
-    id: number;
-    slug: string;
-    title: string;
-    short_description: string | null;
-    content: string | null;
-    repo_url: string | null;
-    live_url: string | null;
-    cover_image_url: string | null;
-    featured: boolean;
-    status: "draft" | "published" | "archived";
-    start_date: string | null;
-    end_date: string | null;
-    order_index: number;
-    created_at: string;
-    updated_at: string;
-};
-
-type PaginationData = {
-    currentPage: number;
-    totalPages: number;
-    totalItems: number;
-    itemsPerPage: number;
-    hasNextPage: boolean;
-    hasPrevPage: boolean;
-};
+import { Project, PaginationData } from "@/lib/supabase/types";
 
 export default function AdminProjects() {
     const { loading: authLoading } = useAuthGuard();
