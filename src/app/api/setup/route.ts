@@ -36,10 +36,7 @@ export async function POST(request: NextRequest) {
         for (const enumType of enumTypes) {
             try {
                 await supabase.rpc("exec_sql", { sql: enumType.sql });
-            } catch {
-                // Enum might already exist, continue
-                console.log(`Enum ${enumType.name} might already exist`);
-            }
+            } catch {}
         }
 
         // Create tables if they don't exist

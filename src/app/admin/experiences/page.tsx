@@ -11,35 +11,13 @@ import { ConfirmationModal } from "@/components/ui/confirmation-modal";
 import { MessageFilters } from "@/components/ui/message-filters";
 import { MessageSkeleton } from "@/components/ui/message-skeleton";
 import { TitleSection } from "@/components/ui/title-section";
-
-type Experience = {
-    id: number;
-    company: string;
-    role: string;
-    location?: string;
-    start_date: string;
-    end_date?: string;
-    current: boolean;
-    description?: string;
-    highlights?: unknown;
-    logo_url?: string;
-    sort_order: number;
-    created_at: string;
-    updated_at: string;
-};
-
-type PaginationData = {
-    page: number;
-    limit: number;
-    total: number;
-    total_pages: number;
-};
+import { Experience, LegacyPaginationData } from "@/lib/supabase/types";
 
 export default function AdminExperiences() {
     useRequireAuth();
     const [experiences, setExperiences] = useState<Experience[]>([]);
     const [loading, setLoading] = useState(true);
-    const [pagination, setPagination] = useState<PaginationData>({
+    const [pagination, setPagination] = useState<LegacyPaginationData>({
         page: 1,
         limit: 10,
         total: 0,

@@ -11,33 +11,13 @@ import { ConfirmationModal } from "@/components/ui/confirmation-modal";
 import { MessageFilters } from "@/components/ui/message-filters";
 import { MessageSkeleton } from "@/components/ui/message-skeleton";
 import { TitleSection } from "@/components/ui/title-section";
-
-type Certificate = {
-    id: number;
-    name: string;
-    issuer?: string;
-    issue_date?: string;
-    expires_at?: string;
-    credential_id?: string;
-    credential_url?: string;
-    image_url?: string;
-    published: boolean;
-    sort_order: number;
-    created_at: string;
-};
-
-type PaginationData = {
-    page: number;
-    limit: number;
-    total: number;
-    total_pages: number;
-};
+import { Certificate, LegacyPaginationData } from "@/lib/supabase/types";
 
 export default function AdminCertificates() {
     useRequireAuth();
     const [certificates, setCertificates] = useState<Certificate[]>([]);
     const [loading, setLoading] = useState(true);
-    const [pagination, setPagination] = useState<PaginationData>({
+    const [pagination, setPagination] = useState<LegacyPaginationData>({
         page: 1,
         limit: 10,
         total: 0,

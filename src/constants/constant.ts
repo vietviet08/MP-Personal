@@ -168,8 +168,8 @@ export const ProjectsInfo = [
 ];
 
 export const ContactInfo = {
-    email: "vietnq.23ceb@vku.udn.vn",
-    phone: "+84 777 777 777",
+    email: "vietvie203@gmail.com",
+    phone: "+84 777 560 753",
     location: "Danang, Vietnam",
     socialLinks: {
         github: "https://github.com/vietviet08",

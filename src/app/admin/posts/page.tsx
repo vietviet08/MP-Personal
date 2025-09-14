@@ -7,32 +7,12 @@ import { Pagination } from "@/components/ui/pagination";
 import { MessageFilters } from "@/components/ui/message-filters";
 import { ConfirmationModal } from "@/components/ui/confirmation-modal";
 import { ToastContainer, useToast } from "@/components/ui/toast";
+import { PostPreviewModal } from "@/components/Admin/PostPreviewModal";
 import { FileText, Calendar, Edit, Trash2, Plus, Eye } from "lucide-react";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { fetchWithAuth } from "@/lib/api-client";
-
-type Post = {
-    id: number;
-    slug: string;
-    title: string;
-    excerpt: string | null;
-    content: string | null;
-    cover_image_url: string | null;
-    status: "draft" | "published" | "archived";
-    reading_time_minutes: number | null;
-    published_at: string | null;
-    created_at: string;
-    updated_at: string;
-};
-
-type PaginationData = {
-    currentPage: number;
-    totalPages: number;
-    totalItems: number;
-    itemsPerPage: number;
-    hasNextPage: boolean;
-    hasPrevPage: boolean;
-};
+import { PaginationData, Post } from "@/lib/supabase/types";
 
 export default function AdminPosts() {
     const { loading: authLoading } = useAuthGuard();
@@ -58,6 +38,8 @@ export default function AdminPosts() {
     const [deletingId, setDeletingId] = useState<number | null>(null);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [postToDelete, setPostToDelete] = useState<Post | null>(null);
+    const [showPreviewModal, setShowPreviewModal] = useState(false);
+    const [postToPreview, setPostToPreview] = useState<Post | null>(null);
 
     const fetchPosts = useCallback(
         async (page = 1) => {
@@ -154,6 +136,16 @@ export default function AdminPosts() {
     const cancelDelete = () => {
         setShowDeleteModal(false);
         setPostToDelete(null);
+    };
+
+    const handlePreviewPost = (post: Post) => {
+        setPostToPreview(post);
+        setShowPreviewModal(true);
+    };
+
+    const closePreviewModal = () => {
+        setShowPreviewModal(false);
+        setPostToPreview(null);
     };
 
     const handlePageChange = (page: number) => {
@@ -270,9 +262,11 @@ export default function AdminPosts() {
                         </span>
                     )}
                 </div>
-                <Button className="flex items-center space-x-2">
-                    <Plus className="w-4 h-4" />
-                    <span>Tạo bài viết mới</span>
+                <Button asChild className="flex items-center space-x-2">
+                    <Link href="/admin/posts/create">
+                        <Plus className="w-4 h-4" />
+                        <span>Tạo bài viết mới</span>
+                    </Link>
                 </Button>
             </div>
 
@@ -391,16 +385,26 @@ export default function AdminPosts() {
                                                         <Button
                                                             variant="ghost"
                                                             size="sm"
+                                                            onClick={() =>
+                                                                handlePreviewPost(
+                                                                    post
+                                                                )
+                                                            }
                                                             className="text-blue-600 hover:text-blue-700 hover:bg-blue-50 dark:hover:bg-blue-900/20"
                                                         >
                                                             <Eye className="w-4 h-4" />
                                                         </Button>
                                                         <Button
+                                                            asChild
                                                             variant="ghost"
                                                             size="sm"
                                                             className="text-green-600 hover:text-green-700 hover:bg-green-50 dark:hover:bg-green-900/20"
                                                         >
-                                                            <Edit className="w-4 h-4" />
+                                                            <Link
+                                                                href={`/admin/posts/edit/${post.id}`}
+                                                            >
+                                                                <Edit className="w-4 h-4" />
+                                                            </Link>
                                                         </Button>
                                                         <Button
                                                             variant="ghost"
@@ -455,6 +459,12 @@ export default function AdminPosts() {
                 cancelText="Hủy"
                 variant="danger"
                 isLoading={deletingId !== null}
+            />
+
+            <PostPreviewModal
+                isOpen={showPreviewModal}
+                onClose={closePreviewModal}
+                post={postToPreview}
             />
 
             <ToastContainer toasts={toasts} onRemove={removeToast} />
