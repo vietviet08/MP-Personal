@@ -1,28 +1,50 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import Link from "next/link";
+import { useRouter, usePathname } from "next/navigation";
 import { ModeToggle } from "../theme-toggle/theme-toggle";
 import { GithubIcon, LinkedinIcon } from "lucide-react";
 import { ContactInfo } from "@/constants/constant";
 
 export const Header = () => {
+    const router = useRouter();
+    const pathname = usePathname();
     const menuItems = [
-        { name: "Home", href: "#home" },
-        { name: "About", href: "#about" },
-        { name: "Skills", href: "#skills" },
-        { name: "Projects", href: "#projects" },
-        { name: "Contact", href: "#contact" },
+        { name: "Home", href: "#home", type: "scroll" },
+        { name: "About", href: "#about", type: "scroll" },
+        { name: "Skills", href: "#skills", type: "scroll" },
+        { name: "Projects", href: "#projects", type: "scroll" },
+        { name: "Blogs", href: "/blogs", type: "link" },
+        { name: "Contact", href: "#contact", type: "scroll" },
     ];
 
     const [isScroll, setIsScroll] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
+    const [isBlogsPage, setIsBlogsPage] = useState(false);
 
-    const handleMenuItemClick = (sectionId: string) => {
+    const handleMenuItemClick = (item: {
+        name: string;
+        href: string;
+        type: string;
+    }) => {
         setIsOpen(false);
 
-        const section = document.getElementById(sectionId);
-        if (section) {
-            section.scrollIntoView({ behavior: "smooth" });
+        if (item.type === "scroll") {
+            // If we're not on home page, go to home first
+            if (window.location.pathname !== "/") {
+                router.push("/" + item.href);
+                return;
+            }
+
+            // Scroll to section on current page
+            const sectionId = item.href.slice(1);
+            const section = document.getElementById(sectionId);
+            if (section) {
+                section.scrollIntoView({ behavior: "smooth" });
+            }
+        } else if (item.type === "link") {
+            router.push(item.href);
         }
     };
 
@@ -30,45 +52,57 @@ export const Header = () => {
         const handleScroll = () => {
             setIsScroll(window.scrollY > 50);
         };
+
         setIsOpen(false);
         window.addEventListener("scroll", handleScroll);
+
         return () => {
             window.removeEventListener("scroll", handleScroll);
         };
     }, []);
 
+    // Listen for route changes
+    useEffect(() => {
+        setIsBlogsPage(pathname.startsWith("/blogs"));
+    }, [pathname]);
+
     return (
         <header
             className={
                 "fixed top-0 left-0 w-full z-50 transition duration-300 px-[2vw] md:px-[5vw] lg:px-[19vw] " +
-                (isScroll
-                    ? " bg-white/50 dark:bg-[#020618]/50 backdrop-filter backdrop-blur-md shadow-md "
-                    : "bg-transparent")
+                (isBlogsPage
+                    ? isScroll
+                        ? " bg-white/90 dark:bg-gray-800/90 backdrop-filter backdrop-blur-md shadow-md "
+                        : " bg-gradient-to-br bg-white/90 dark:from-gray-900/90 dark:to-gray-800/90 backdrop-filter backdrop-blur-md "
+                    : isScroll
+                      ? " bg-white/50 dark:bg-[#020618]/50 backdrop-filter backdrop-blur-md shadow-md "
+                      : "bg-transparent")
             }
         >
             <div className="flex items-center justify-between p-4">
                 <div className="flex items-center">
-                    <div className="text-xl font-semibold cursor-pointer">
+                    <Link
+                        href="/"
+                        className="text-xl font-semibold cursor-pointer hover:opacity-80 transition-opacity"
+                    >
                         <span className="text-blue-500">&lt;</span>
                         <span className="">Viet</span>
                         <span className="text-blue-500">/</span>
                         <span className="">Quoc</span>
                         <span className="text-blue-500">&gt;</span>
-                    </div>
+                    </Link>
                 </div>
 
                 <div className="flex items-center gap-4">
                     <nav className="hidden md:flex items-center gap-6">
                         {menuItems.map((item) => (
-                            <a
+                            <button
                                 key={item.name}
-                                onClick={() =>
-                                    handleMenuItemClick(item.href.slice(1))
-                                }
-                                className="text-lg text-gray-700 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400 transition-colors"
+                                onClick={() => handleMenuItemClick(item)}
+                                className="text-lg text-gray-700 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400 transition-colors cursor-pointer"
                             >
                                 {item.name}
-                            </a>
+                            </button>
                         ))}
                     </nav>
                 </div>
@@ -126,17 +160,14 @@ export const Header = () => {
                         <ul className="flex flex-col items-center space-y-4 py-4 text-gray-700 dark:text-gray-300">
                             {menuItems.map((item) => (
                                 <li key={item.name}>
-                                    <a
-                                        className="text-lg hover:text-blue-500 transition-colors"
-                                        onClick={() => {
-                                            handleMenuItemClick(
-                                                item.href.slice(1)
-                                            );
-                                            setIsOpen(false);
-                                        }}
+                                    <button
+                                        className="text-lg hover:text-blue-500 transition-colors cursor-pointer"
+                                        onClick={() =>
+                                            handleMenuItemClick(item)
+                                        }
                                     >
                                         {item.name}
-                                    </a>
+                                    </button>
                                 </li>
                             ))}
                         </ul>

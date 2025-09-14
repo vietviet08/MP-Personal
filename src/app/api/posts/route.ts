@@ -14,6 +14,7 @@ export async function GET(request: NextRequest) {
         const page = parseInt(searchParams.get("page") || "1");
         const limit = parseInt(searchParams.get("limit") || "10");
         const slug = searchParams.get("slug");
+        const search = searchParams.get("search") || "";
 
         // Calculate offset for pagination
         const offset = (page - 1) * limit;
@@ -22,19 +23,26 @@ export async function GET(request: NextRequest) {
         let query = supabase
             .from("posts")
             .select(
-                "id, title, content, excerpt, slug, status, reading_time_minutes, published_at, created_at, updated_at",
+                "id, title, content, excerpt, slug, status, reading_time_minutes, published_at, created_at, updated_at, cover_image_url",
                 {
                     count: "exact",
                 }
             )
             .eq("status", "published"); // Only show published posts
 
+        // Add search filter if provided
+        if (search) {
+            query = query.or(
+                `title.ilike.%${search}%,content.ilike.%${search}%,excerpt.ilike.%${search}%`
+            );
+        }
+
         // If specific slug requested, get single post
         if (slug) {
             const { data, error } = await supabase
                 .from("posts")
                 .select(
-                    "id, title, content, excerpt, slug, status, reading_time_minutes, published_at, created_at, updated_at"
+                    "id, title, content, excerpt, slug, status, reading_time_minutes, published_at, created_at, updated_at, cover_image_url"
                 )
                 .eq("slug", slug)
                 .eq("status", "published")
