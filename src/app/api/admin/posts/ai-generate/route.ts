@@ -22,54 +22,30 @@ function getGeminiClient() {
     return genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 }
 
-// Hàm để tạo từ khóa từ excerpt để tạo cover image URL
-function extractKeywords(text: string): string {
-    // Loại bỏ các từ stopwords và lấy từ khóa chính
-    const stopwords = [
-        "the",
-        "a",
-        "an",
-        "and",
-        "or",
-        "but",
-        "in",
-        "on",
-        "at",
-        "to",
-        "for",
-        "of",
-        "with",
-        "by",
-        "is",
-        "are",
-        "was",
-        "were",
-        "be",
-        "been",
-        "have",
-        "has",
-        "had",
-        "will",
-        "would",
-        "could",
-        "should",
-        "may",
-        "might",
-        "must",
-        "can",
-        "do",
-        "does",
-        "did",
+// Hàm tạo cover image URL thật sự tồn tại
+function generateCoverImageUrl(excerpt: string): string {
+    // Danh sách các URL ảnh bìa có sẵn cho các chủ đề công nghệ
+    const techCoverImages = [
+        "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=1600&h=900&fit=crop&crop=center",
+        "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=1600&h=900&fit=crop&crop=center",
+        "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1600&h=900&fit=crop&crop=center",
+        "https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=1600&h=900&fit=crop&crop=center",
+        "https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=1600&h=900&fit=crop&crop=center",
+        "https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?w=1600&h=900&fit=crop&crop=center",
+        "https://images.unsplash.com/photo-1504639725590-34d0984388bd?w=1600&h=900&fit=crop&crop=center",
+        "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1600&h=900&fit=crop&crop=center",
+        "https://images.unsplash.com/photo-1551650975-87deedd944c3?w=1600&h=900&fit=crop&crop=center",
+        "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1600&h=900&fit=crop&crop=center",
     ];
 
-    const words = text
-        .toLowerCase()
-        .replace(/[^\w\s]/g, "")
-        .split(/\s+/)
-        .filter((word) => word.length > 3 && !stopwords.includes(word))
-        .slice(0, 2); // Lấy 2 từ khóa chính
+    // Chọn ảnh ngẫu nhiên dựa trên hash của excerpt
+    const hash = excerpt.split("").reduce((a, b) => {
+        a = (a << 5) - a + b.charCodeAt(0);
+        return a & a;
+    }, 0);
 
-    return words.join(",") || "blog,article";
+    const index = Math.abs(hash) % techCoverImages.length;
+    return techCoverImages[index];
 }
 
 // Hàm sinh nội dung blog từ excerpt sử dụng Google Gemini
@@ -88,43 +64,259 @@ async function generateBlogContent(
 Yêu cầu:
 - Tạo tiêu đề hấp dẫn, ngắn gọn, chuẩn SEO
 - Cải thiện excerpt thành mô tả ngắn gọn (1-3 câu), dễ đọc, chuẩn SEO  
-- Viết nội dung blog chi tiết 800-1200 từ bằng tiếng Việt
-- Sử dụng cấu trúc markdown với heading (##, ###)
+- Viết nội dung blog chi tiết 1000-1500 từ bằng tiếng Việt
+- Sử dụng cấu trúc HTML với các thẻ h2, h3, p, ul, ol, strong, em, blockquote, pre, code
 - Nội dung phải có giá trị, thông tin chính xác, dễ hiểu
 - Bao gồm: giới thiệu, phân tích chi tiết, ví dụ thực tế, kết luận
-- Tránh nội dung chung chung, hãy cụ thể và chuyên sâu
 
-Trả về ĐÚNG định dạng JSON sau (không thêm markdown formatting hoặc text nào khác):
+QUAN TRỌNG CHO BÀI VIẾT CÔNG NGHỆ:
+- Nếu bài viết về lập trình, framework, tutorial, kỹ thuật code:
+  + BẮT BUỘC phải có ít nhất 2-3 đoạn code mẫu thực tế
+  + Code phải được đặt trong thẻ <pre><code> với syntax highlighting
+  + Mỗi đoạn code phải có comment giải thích chi tiết
+  + Code phải hoạt động được và có thể chạy thực tế
+  + Ví dụ: React components, API calls, database queries, algorithms, etc.
+- Nếu bài viết về công nghệ nói chung:
+  + Thêm ví dụ thực tế, case studies
+  + So sánh các giải pháp khác nhau
+  + Hướng dẫn step-by-step chi tiết
+
+Cấu trúc HTML bắt buộc:
+- <h2> cho các phần chính
+- <h3> cho các phần con
+- <p> cho đoạn văn
+- <ul><li> cho danh sách
+- <ol><li> cho hướng dẫn step-by-step
+- <strong> cho từ khóa quan trọng
+- <em> cho nhấn mạnh
+- <blockquote> cho trích dẫn
+- <pre><code class="language-[tên-ngôn-ngữ]"> cho code examples (VD: language-javascript, language-python, language-bash)
+- <a href="..."> cho links
+
+QUAN TRỌNG CHO CODE BLOCKS:
+- Luôn sử dụng class="language-[tên-ngôn-ngữ]" trong thẻ <code>
+- Các ngôn ngữ phổ biến: javascript, typescript, python, java, csharp, php, ruby, go, rust, sql, bash, json, yaml, css, html, xml, docker, git
+- Ví dụ: <pre><code class="language-javascript">console.log('Hello World');</code></pre>
+- Ví dụ: <pre><code class="language-bash">npm install package-name</code></pre>
+- Ví dụ: <pre><code class="language-python">def hello(): print("Hello World")</code></pre>
+- Code phải có comment giải thích chi tiết
+- Mỗi đoạn code phải có context và mục đích rõ ràng
+
+QUAN TRỌNG VỀ ĐỊNH DẠNG TRẢ VỀ:
+- BẮT BUỘC phải trả về ĐÚNG định dạng JSON hợp lệ
+- KHÔNG được bao bọc trong markdown code blocks
+- KHÔNG được thêm text giải thích trước hoặc sau JSON
+- KHÔNG được có trailing commas
+- Tất cả strings phải được escape đúng cách
+- Chỉ trả về JSON object, không có gì khác
+
+Định dạng JSON bắt buộc:
 {
   "title": "tiêu đề hấp dẫn",
-  "excerpt": "mô tả ngắn gọn đã cải thiện",
-  "content": "nội dung blog đầy đủ với markdown formatting",
-  "cover_image_url": "https://source.unsplash.com/1600x900/?keyword1,keyword2"
+  "excerpt": "mô tả ngắn gọn đã cải thiện", 
+  "content": "nội dung blog đầy đủ với HTML formatting và code examples",
+  "cover_image_url": "sẽ được tự động tạo"
 }
 
-Chỉ trả về JSON thuần túy, không có text giải thích hay markdown wrapper.`;
+VÍ DỤ ĐÚNG:
+{"title":"Hướng dẫn React Hooks","excerpt":"Tìm hiểu cách sử dụng React Hooks hiệu quả","content":"<h2>Giới thiệu</h2><p>React Hooks là...</p>","cover_image_url":""}
 
-        const result = await model.generateContent(prompt);
+VÍ DỤ SAI (KHÔNG LÀM):
+\`\`\`json
+{"title":"..."}
+\`\`\`
 
-        const response = result.response;
-        const text = response.text();
+Chỉ trả về JSON thuần túy, không có gì khác.`;
+
+        // Try generating content with retry mechanism
+        let result;
+        let text;
+        let attempts = 0;
+        const maxAttempts = 2;
+
+        while (attempts < maxAttempts) {
+            try {
+                result = await model.generateContent(prompt);
+                const response = result.response;
+                text = response.text();
+                break; // Success, exit retry loop
+            } catch (error) {
+                attempts++;
+                if (attempts >= maxAttempts) {
+                    throw error; // Re-throw if max attempts reached
+                }
+                console.warn(
+                    `Gemini generation attempt ${attempts} failed, retrying...`,
+                    error
+                );
+                // Wait a bit before retry
+                await new Promise((resolve) => setTimeout(resolve, 1000));
+            }
+        }
 
         if (!text) {
             throw new Error("Gemini returned empty response");
         }
 
-        // Parse JSON response from Gemini
+        // Parse JSON response from Gemini with multiple fallback strategies
         let parsedResult: AIGenerateResponse;
         try {
-            // Clean response text - remove markdown code blocks if present
-            const cleanText = text.replace(/```json\n?|\n?```/g, "").trim();
-            parsedResult = JSON.parse(cleanText);
-        } catch {
+            // Strategy 1: Try to find JSON in the response
+            let cleanText = text.trim();
+
+            // Remove markdown code blocks if present
+            cleanText = cleanText.replace(/```json\n?|\n?```/g, "").trim();
+
+            // Try to extract JSON from the response if it's wrapped in other text
+            const jsonMatch = cleanText.match(/\{[\s\S]*\}/);
+            if (jsonMatch) {
+                cleanText = jsonMatch[0];
+            }
+
+            // Strategy 2: Try parsing the cleaned text
+            try {
+                parsedResult = JSON.parse(cleanText);
+            } catch {
+                // Strategy 3: Try to fix common JSON issues
+                let fixedText = cleanText;
+
+                // Fix common issues:
+                // - Remove trailing commas
+                fixedText = fixedText.replace(/,(\s*[}\]])/g, "$1");
+
+                // - Fix unescaped quotes in strings
+                fixedText = fixedText.replace(
+                    /"([^"]*)"([^"]*)"([^"]*)":/g,
+                    '"$1$2$3":'
+                );
+
+                // - Ensure proper JSON structure
+                if (!fixedText.startsWith("{")) {
+                    const startIndex = fixedText.indexOf("{");
+                    if (startIndex !== -1) {
+                        fixedText = fixedText.substring(startIndex);
+                    }
+                }
+
+                if (!fixedText.endsWith("}")) {
+                    const lastIndex = fixedText.lastIndexOf("}");
+                    if (lastIndex !== -1) {
+                        fixedText = fixedText.substring(0, lastIndex + 1);
+                    }
+                }
+
+                parsedResult = JSON.parse(fixedText);
+            }
+        } catch (parseError) {
             console.error(
-                "Failed to parse Gemini response:",
-                text.substring(0, 200)
+                "Failed to parse Gemini response after all strategies:"
             );
-            throw new Error("Gemini returned invalid JSON format");
+            console.error("Original response:", text.substring(0, 500));
+            console.error("Parse error:", parseError);
+
+            // Strategy 4: Try to extract data manually using regex (handles multiline content)
+            try {
+                // More flexible regex patterns that handle multiline content
+                const titleMatch = text.match(
+                    /"title"\s*:\s*"([^"]*(?:\\.[^"]*)*)"/
+                );
+                const excerptMatch = text.match(
+                    /"excerpt"\s*:\s*"([^"]*(?:\\.[^"]*)*)"/
+                );
+                const contentMatch = text.match(
+                    /"content"\s*:\s*"([^"]*(?:\\.[^"]*)*)"/
+                );
+
+                // If multiline regex doesn't work, try simpler approach
+                let title = titleMatch?.[1];
+                let excerpt = excerptMatch?.[1];
+                let content = contentMatch?.[1];
+
+                if (!title || !excerpt || !content) {
+                    // Try to find the values with more flexible patterns
+                    const lines = text.split("\n");
+                    for (const line of lines) {
+                        if (line.includes('"title"') && !title) {
+                            const match = line.match(/"title"\s*:\s*"([^"]+)"/);
+                            if (match) title = match[1];
+                        }
+                        if (line.includes('"excerpt"') && !excerpt) {
+                            const match = line.match(
+                                /"excerpt"\s*:\s*"([^"]+)"/
+                            );
+                            if (match) excerpt = match[1];
+                        }
+                        if (line.includes('"content"') && !content) {
+                            // For content, we need to handle multiline HTML
+                            const contentStart = line.indexOf('"content"');
+                            if (contentStart !== -1) {
+                                const contentValue = line
+                                    .substring(contentStart + 10)
+                                    .trim();
+                                if (
+                                    contentValue.startsWith('"') &&
+                                    contentValue.endsWith('"')
+                                ) {
+                                    content = contentValue.slice(1, -1);
+                                } else if (contentValue.startsWith('"')) {
+                                    // Multiline content - find the closing quote
+                                    let fullContent = contentValue.slice(1);
+                                    const nextLineIndex =
+                                        lines.indexOf(line) + 1;
+                                    for (
+                                        let i = nextLineIndex;
+                                        i < lines.length;
+                                        i++
+                                    ) {
+                                        const nextLine = lines[i];
+                                        if (
+                                            nextLine.includes('"') &&
+                                            nextLine.includes("}")
+                                        ) {
+                                            const endQuoteIndex =
+                                                nextLine.indexOf('"');
+                                            fullContent +=
+                                                "\n" +
+                                                nextLine.substring(
+                                                    0,
+                                                    endQuoteIndex
+                                                );
+                                            break;
+                                        } else {
+                                            fullContent += "\n" + nextLine;
+                                        }
+                                    }
+                                    content = fullContent;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (title && excerpt && content) {
+                    parsedResult = {
+                        title: title.replace(/\\"/g, '"').replace(/\\n/g, "\n"),
+                        excerpt: excerpt
+                            .replace(/\\"/g, '"')
+                            .replace(/\\n/g, "\n"),
+                        content: content
+                            .replace(/\\"/g, '"')
+                            .replace(/\\n/g, "\n"),
+                        cover_image_url: "", // Will be set later
+                    };
+                } else {
+                    console.error("Could not extract required fields:");
+                    console.error("Title found:", !!title);
+                    console.error("Excerpt found:", !!excerpt);
+                    console.error("Content found:", !!content);
+                    throw new Error("Could not extract data from response");
+                }
+            } catch (extractError) {
+                console.error("Failed to extract data manually:", extractError);
+                throw new Error(
+                    "Gemini returned invalid JSON format and could not be parsed"
+                );
+            }
         }
 
         // Validate the result
@@ -137,11 +329,8 @@ Chỉ trả về JSON thuần túy, không có text giải thích hay markdown w
             throw new Error("Gemini returned incomplete blog content");
         }
 
-        // Ensure cover_image_url exists
-        if (!parsedResult.cover_image_url) {
-            const keywords = extractKeywords(excerpt);
-            parsedResult.cover_image_url = `https://source.unsplash.com/1600x900/?${keywords}`;
-        }
+        // Generate cover image URL
+        parsedResult.cover_image_url = generateCoverImageUrl(excerpt);
 
         return parsedResult;
     } catch (error) {
