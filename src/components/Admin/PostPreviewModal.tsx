@@ -65,7 +65,7 @@ export function PostPreviewModal({
                     leaveFrom="opacity-100"
                     leaveTo="opacity-0"
                 >
-                    <div className="fixed inset-0 bg-white/10 backdrop-blur-lg" />
+                    <div className="fixed inset-0 bg-black/30 backdrop-blur-md" />
                 </Transition.Child>
 
                 <div className="fixed inset-0 overflow-y-auto">
