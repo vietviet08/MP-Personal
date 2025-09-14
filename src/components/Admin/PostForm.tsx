@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, forwardRef, useImperativeHandle } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -30,12 +30,21 @@ interface PostFormProps {
     mode: "create" | "edit";
 }
 
-export default function PostForm({
-    post,
-    onSuccess,
-    onCancel,
-    mode,
-}: PostFormProps) {
+interface AIGeneratedContent {
+    title: string;
+    excerpt: string;
+    content: string;
+    cover_image_url: string;
+}
+
+interface PostFormRef {
+    populateWithAI: (data: AIGeneratedContent) => void;
+}
+
+const PostForm = forwardRef<PostFormRef, PostFormProps>(function PostForm(
+    { post, onSuccess, onCancel, mode },
+    ref
+) {
     const { showSuccess, showError } = useToast();
     const [loading, setLoading] = useState(false);
     const [availableTags, setAvailableTags] = useState<Tag[]>([]);
@@ -54,6 +63,40 @@ export default function PostForm({
         reading_time_minutes: undefined,
         published_at: undefined,
     });
+
+    // Expose methods to parent component
+    useImperativeHandle(
+        ref,
+        () => ({
+            populateWithAI: (data: AIGeneratedContent) => {
+                if (!data) {
+                    console.error("populateWithAI called with undefined data");
+                    return;
+                }
+
+                if (!data.title || !data.content) {
+                    console.error(
+                        "populateWithAI called with incomplete data:",
+                        data
+                    );
+                    return;
+                }
+
+                setFormData((prev) => ({
+                    ...prev,
+                    title: data.title,
+                    slug: generateSlug(data.title),
+                    excerpt: data.excerpt || "",
+                    content: data.content,
+                    cover_image_url: data.cover_image_url || "",
+                    reading_time_minutes: data.content
+                        ? calculateReadingTime(data.content)
+                        : undefined,
+                }));
+            },
+        }),
+        []
+    );
 
     // Load available tags
     useEffect(() => {
@@ -568,4 +611,6 @@ export default function PostForm({
             </form>
         </div>
     );
-}
+});
+
+export default PostForm;
