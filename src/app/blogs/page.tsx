@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, Suspense } from "react";
 import { Search, Calendar, Clock, ChevronRight, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Pagination } from "@/components/ui/pagination";
 import { Post, PaginationData } from "@/lib/supabase/types";
 
-export default function PostsPage() {
+function PostsPageContent() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const [posts, setPosts] = useState<Post[]>([]);
@@ -273,5 +273,36 @@ export default function PostsPage() {
                 )}
             </div>
         </div>
+    );
+}
+
+export default function PostsPage() {
+    return (
+        <Suspense
+            fallback={
+                <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+                    <div className="container mx-auto px-4 py-8">
+                        <div className="animate-pulse">
+                            <div className="h-12 bg-gray-200 dark:bg-gray-700 rounded-lg mb-8"></div>
+                            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                {Array.from({ length: 6 }).map((_, i) => (
+                                    <div
+                                        key={i}
+                                        className="bg-white dark:bg-gray-800 rounded-lg p-6"
+                                    >
+                                        <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded mb-4"></div>
+                                        <div className="h-3 bg-gray-200 dark:bg-gray-700 rounded mb-2"></div>
+                                        <div className="h-3 bg-gray-200 dark:bg-gray-700 rounded mb-4"></div>
+                                        <div className="h-3 bg-gray-200 dark:bg-gray-700 rounded w-3/4"></div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        >
+            <PostsPageContent />
+        </Suspense>
     );
 }

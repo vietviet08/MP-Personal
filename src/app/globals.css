@@ -1,6 +1,190 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+/* PrismJS Custom Styles */
+pre[class*="language-"] {
+    background: #2d3748 !important;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin: 1rem 0;
+    overflow: auto;
+    position: relative;
+    font-family:
+        "Monaco", "Cascadia Code", "Roboto Mono", "Consolas", "Courier New",
+        monospace;
+    font-size: 14px;
+    line-height: 1.5;
+    box-shadow:
+        0 4px 6px -1px rgba(0, 0, 0, 0.1),
+        0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+code[class*="language-"] {
+    background: transparent !important;
+    color: #e2e8f0;
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+}
+
+/* Dark theme for PrismJS */
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+    color: #6a9955;
+}
+
+.token.punctuation {
+    color: #d4d4d4;
+}
+
+.token.property,
+.token.tag,
+.token.boolean,
+.token.number,
+.token.constant,
+.token.symbol,
+.token.deleted {
+    color: #b5cea8;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+    color: #ce9178;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string {
+    color: #d4d4d4;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.keyword {
+    color: #569cd6;
+}
+
+.token.function,
+.token.class-name {
+    color: #dcdcaa;
+}
+
+.token.regex,
+.token.important,
+.token.variable {
+    color: #d16969;
+}
+
+/* Copy button styles */
+.copy-button {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #e2e8f0;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.2s;
+    z-index: 10;
+}
+
+pre[class*="language-"]:hover .copy-button {
+    opacity: 1;
+}
+
+.copy-button:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* Light theme adjustments */
+@media (prefers-color-scheme: light) {
+    pre[class*="language-"] {
+        background: #f7fafc !important;
+        border: 1px solid #e2e8f0;
+    }
+
+    code[class*="language-"] {
+        color: #2d3748;
+    }
+
+    .token.comment,
+    .token.prolog,
+    .token.doctype,
+    .token.cdata {
+        color: #6a9955;
+    }
+
+    .token.punctuation {
+        color: #2d3748;
+    }
+
+    .token.property,
+    .token.tag,
+    .token.boolean,
+    .token.number,
+    .token.constant,
+    .token.symbol,
+    .token.deleted {
+        color: #2d3748;
+    }
+
+    .token.selector,
+    .token.attr-name,
+    .token.string,
+    .token.char,
+    .token.builtin,
+    .token.inserted {
+        color: #ce9178;
+    }
+
+    .token.operator,
+    .token.entity,
+    .token.url,
+    .language-css .token.string,
+    .style .token.string {
+        color: #2d3748;
+    }
+
+    .token.atrule,
+    .token.attr-value,
+    .token.keyword {
+        color: #569cd6;
+    }
+
+    .token.function,
+    .token.class-name {
+        color: #dcdcaa;
+    }
+
+    .token.regex,
+    .token.important,
+    .token.variable {
+        color: #d16969;
+    }
+
+    .copy-button {
+        background: rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        color: #2d3748;
+    }
+
+    .copy-button:hover {
+        background: rgba(0, 0, 0, 0.2);
+    }
+}
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
@@ -385,4 +569,202 @@
         0 10px 25px -5px rgba(0, 0, 0, 0.3),
         0 10px 10px -5px rgba(0, 0, 0, 0.2),
         0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+/* Blog content styling */
+.prose h2 {
+    @apply text-2xl font-bold text-gray-900 dark:text-white mt-8 mb-4;
+}
+
+.prose h3 {
+    @apply text-xl font-semibold text-gray-800 dark:text-gray-200 mt-6 mb-3;
+}
+
+.prose p {
+    @apply text-gray-700 dark:text-gray-300 mb-4 leading-relaxed;
+}
+
+.prose ul {
+    @apply list-disc list-inside mb-4 text-gray-700 dark:text-gray-300;
+}
+
+.prose ol {
+    @apply list-decimal list-inside mb-4 text-gray-700 dark:text-gray-300;
+}
+
+.prose li {
+    @apply mb-2;
+}
+
+.prose strong {
+    @apply font-semibold text-gray-900 dark:text-white;
+}
+
+.prose em {
+    @apply italic text-gray-600 dark:text-gray-400;
+}
+
+.prose blockquote {
+    @apply border-l-4 border-blue-500 pl-4 italic text-gray-600 dark:text-gray-400 my-4;
+}
+
+.prose a {
+    @apply text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 underline;
+}
+
+.prose img {
+    @apply rounded-lg shadow-md my-4;
+}
+
+.prose code {
+    @apply bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded text-sm font-mono;
+}
+
+/* Code blocks styling */
+.prose pre {
+    @apply p-4 rounded-lg overflow-x-auto my-4 border border-gray-200 dark:border-gray-700;
+    background: #2d3748 !important; /* Dark background for code blocks */
+    position: relative;
+}
+
+.prose pre code {
+    @apply bg-transparent p-0 text-sm font-mono;
+    background: transparent !important;
+    color: #e2e8f0 !important;
+    font-family:
+        "Monaco", "Cascadia Code", "Roboto Mono", "Consolas", "Courier New",
+        monospace !important;
+    font-size: 14px !important;
+    line-height: 1.5 !important;
+}
+
+/* Language-specific styling */
+.prose pre[class*="language-"] {
+    background: #2d3748 !important;
+    border: 1px solid #4a5568;
+}
+
+.prose pre[class*="language-"] code {
+    color: #e2e8f0 !important;
+    background: transparent !important;
+}
+
+/* Basic syntax highlighting */
+.prose pre code .token.comment,
+.prose pre code .token.prolog,
+.prose pre code .token.doctype,
+.prose pre code .token.cdata {
+    color: #6a9955;
+    font-style: italic;
+}
+
+.prose pre code .token.punctuation {
+    color: #d4d4d4;
+}
+
+.prose pre code .token.property,
+.prose pre code .token.tag,
+.prose pre code .token.constant,
+.prose pre code .token.symbol,
+.prose pre code .token.deleted {
+    color: #f44747;
+}
+
+.prose pre code .token.boolean,
+.prose pre code .token.number {
+    color: #b5cea8;
+}
+
+.prose pre code .token.selector,
+.prose pre code .token.attr-name,
+.prose pre code .token.string,
+.prose pre code .token.char,
+.prose pre code .token.builtin,
+.prose pre code .token.inserted {
+    color: #ce9178;
+}
+
+.prose pre code .token.operator,
+.prose pre code .token.entity,
+.prose pre code .token.url,
+.prose pre code .language-css .token.string,
+.prose pre code .style .token.string {
+    color: #d4d4d4;
+}
+
+.prose pre code .token.atrule,
+.prose pre code .token.attr-value,
+.prose pre code .token.keyword {
+    color: #569cd6;
+}
+
+.prose pre code .token.function,
+.prose pre code .token.class-name {
+    color: #dcdcaa;
+}
+
+.prose pre code .token.regex,
+.prose pre code .token.important,
+.prose pre code .token.variable {
+    color: #d16969;
+}
+
+/* Dark mode overrides */
+.dark .prose pre[class*="language-"] {
+    background: #1a202c !important;
+    border: 1px solid #2d3748;
+}
+
+.dark .prose pre[class*="language-"] code {
+    color: #f7fafc !important;
+}
+
+/* Copy button for code blocks */
+.prose pre {
+    position: relative;
+}
+
+.prose pre:hover::after {
+    content: var(--copy-content, "📋 Copy");
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    z-index: 10;
+}
+
+.prose pre:hover::after {
+    opacity: 1;
+}
+
+.prose pre:hover::after:hover {
+    background: rgba(0, 0, 0, 0.9);
+}
+
+/* Language label for code blocks */
+.prose pre[class*="language-"]::before {
+    content: attr(class);
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.7);
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 10px;
+    text-transform: uppercase;
+    font-weight: 500;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.prose pre[class*="language-"]:hover::before {
+    opacity: 1;
 }

@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
+import { RichTextEditor } from "@/components/ui/rich-text-editor";
 import {
     Select,
     SelectContent,
@@ -256,7 +257,9 @@ const PostForm = forwardRef<PostFormRef, PostFormProps>(function PostForm(
 
     const calculateReadingTime = (content: string) => {
         const wordsPerMinute = 200;
-        const wordCount = content.trim().split(/\s+/).length;
+        // Remove HTML tags and calculate word count
+        const textContent = content.replace(/<[^>]*>/g, "").trim();
+        const wordCount = textContent.split(/\s+/).length;
         return Math.ceil(wordCount / wordsPerMinute);
     };
 
@@ -384,12 +387,11 @@ const PostForm = forwardRef<PostFormRef, PostFormProps>(function PostForm(
                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                         Content *
                     </label>
-                    <Textarea
-                        value={formData.content}
-                        onChange={(e) => handleContentChange(e.target.value)}
+                    <RichTextEditor
+                        value={formData.content || ""}
+                        onChange={handleContentChange}
                         placeholder="Write your post content here..."
-                        rows={12}
-                        required
+                        height={500}
                     />
                     {formData.reading_time_minutes && (
                         <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">

@@ -6,6 +6,7 @@ import { ArrowLeft, Calendar, Clock, User, Share2 } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Post } from "@/lib/supabase/types";
+import { CodeBlockProcessor } from "@/components/ui/syntax-highlighter";
 
 export default function PostDetailPage() {
     const params = useParams();
@@ -228,13 +229,9 @@ export default function PostDetailPage() {
                                 fontSize: "1.125rem",
                             }}
                         >
-                            {post.content
-                                ?.split("\n")
-                                .map((paragraph, index) => (
-                                    <p key={index} className="mb-4">
-                                        {paragraph}
-                                    </p>
-                                ))}
+                            <CodeBlockProcessor
+                                htmlContent={post.content || ""}
+                            />
                         </div>
                     </div>
 
