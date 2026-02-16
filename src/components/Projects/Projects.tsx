@@ -3,19 +3,18 @@
 import { TitleSection } from "@/components/ui/title-section";
 import Image from "next/image";
 import React from "react";
-import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
-import { ExternalLink } from "lucide-react";
+import { ExternalLink, Calendar } from "lucide-react";
 import { ProjectsInfo } from "@/constants/constant";
 import { motion } from "framer-motion";
 
 export const Projects = () => {
     return (
         <TitleSection
-            className="bg-gray-50 dark:bg-[#111827]"
-            id={"projects"}
-            title={"Projects"}
-            description="Here are some of my projects that showcase my skills and creativity. Each project reflects my passion for coding and problem-solving."
+            className="bg-gray-50/50 dark:bg-transparent"
+            id="projects"
+            title="Projects"
+            description="Selected projects showcasing backend, DevOps, and cloud engineering skills"
         >
             <motion.div
                 className="grid grid-cols-1 gap-8"
@@ -25,140 +24,92 @@ export const Projects = () => {
             >
                 {ProjectsInfo.map((project, index) => (
                     <motion.div
-                        className="bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden"
+                        className="glass-card overflow-hidden"
                         key={index}
-                        initial={{ opacity: 0, y: 50 }}
+                        initial={{ opacity: 0, y: 40 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{
                             duration: 0.7,
-                            delay: index * 0.2,
+                            delay: index * 0.15,
                             ease: [0.22, 1, 0.36, 1],
                         }}
-                        whileHover={{ scale: 1.02 }}
+                        whileHover={{ y: -4 }}
                     >
                         <div
-                            className={cn("flex flex-col", {
-                                "md:flex-row-reverse": index % 2 === 0,
-                                "md:flex-row": index % 2 !== 0,
-                            })}
+                            className={`flex flex-col ${
+                                index % 2 === 0 ? "md:flex-row-reverse" : "md:flex-row"
+                            }`}
                         >
+                            {/* Image */}
                             <motion.div
-                                className="w-full md:w-1/2 p-4"
-                                initial={{
-                                    opacity: 0,
-                                    x: index % 2 === 0 ? -20 : 20,
-                                }}
+                                className="w-full md:w-2/5 p-4"
+                                initial={{ opacity: 0, x: index % 2 === 0 ? -20 : 20 }}
                                 whileInView={{ opacity: 1, x: 0 }}
                                 viewport={{ once: true }}
-                                transition={{ duration: 0.5, delay: 0.4 }}
+                                transition={{ duration: 0.5, delay: 0.3 }}
                             >
                                 <motion.div
-                                    className="overflow-hidden rounded-md"
+                                    className="overflow-hidden rounded-lg"
                                     whileHover={{ scale: 1.03 }}
                                     transition={{ duration: 0.3 }}
                                 >
                                     <Image
                                         src={Object.values(project.image)[0]}
-                                        alt="Project Thumbnail"
+                                        alt={project.title}
                                         width={500}
                                         height={300}
-                                        className="w-full h-auto object-cover rounded-md hover:scale-105 transition-transform duration-300"
+                                        className="w-full h-auto object-cover rounded-lg"
                                     />
                                 </motion.div>
                             </motion.div>
+
+                            {/* Content */}
                             <motion.div
-                                className="w-full md:w-1/2 p-6 flex flex-col justify-between bg-gray-50 dark:bg-gray-900/30"
-                                initial={{
-                                    opacity: 0,
-                                    x: index % 2 === 0 ? 20 : -20,
-                                }}
+                                className="w-full md:w-3/5 p-6 flex flex-col justify-between"
+                                initial={{ opacity: 0, x: index % 2 === 0 ? 20 : -20 }}
                                 whileInView={{ opacity: 1, x: 0 }}
                                 viewport={{ once: true }}
-                                transition={{ duration: 0.5, delay: 0.5 }}
+                                transition={{ duration: 0.5, delay: 0.4 }}
                             >
                                 <div>
-                                    <motion.h3
-                                        className="text-2xl font-semibold mb-3"
-                                        initial={{ opacity: 0 }}
-                                        whileInView={{ opacity: 1 }}
-                                        viewport={{ once: true }}
-                                        transition={{
-                                            duration: 0.4,
-                                            delay: 0.6,
-                                        }}
-                                    >
-                                        {project.title}
-                                    </motion.h3>
-                                    <motion.p
-                                        className="text-gray-600 dark:text-gray-400 mb-4 line-clamp-4"
-                                        initial={{ opacity: 0 }}
-                                        whileInView={{ opacity: 1 }}
-                                        viewport={{ once: true }}
-                                        transition={{
-                                            duration: 0.4,
-                                            delay: 0.7,
-                                        }}
-                                    >
+                                    <div className="flex items-center gap-3 mb-2">
+                                        <h3 className="text-xl font-semibold">
+                                            {project.title}
+                                        </h3>
+                                    </div>
+                                    {project.period && (
+                                        <div className="flex items-center gap-1.5 text-muted-foreground text-sm mb-3">
+                                            <Calendar className="h-3.5 w-3.5" />
+                                            {project.period}
+                                        </div>
+                                    )}
+                                    <p className="text-muted-foreground text-sm leading-relaxed mb-4">
                                         {project.description}
-                                    </motion.p>
-                                    <motion.div
-                                        className="flex flex-wrap gap-2 mb-6"
-                                        initial={{ opacity: 0 }}
-                                        whileInView={{ opacity: 1 }}
-                                        viewport={{ once: true }}
-                                        transition={{
-                                            duration: 0.5,
-                                            delay: 0.8,
-                                        }}
-                                    >
-                                        {project.technologies.map(
-                                            (tech, idx) => (
-                                                <motion.div
-                                                    key={idx}
-                                                    initial={{
-                                                        opacity: 0,
-                                                        scale: 0.8,
-                                                    }}
-                                                    whileInView={{
-                                                        opacity: 1,
-                                                        scale: 1,
-                                                    }}
-                                                    viewport={{ once: true }}
-                                                    transition={{
-                                                        duration: 0.3,
-                                                        delay: 0.8 + idx * 0.05,
-                                                    }}
-                                                >
-                                                    <Badge
-                                                        variant="secondary"
-                                                        className="bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200"
-                                                    >
-                                                        {tech}
-                                                    </Badge>
-                                                </motion.div>
-                                            )
-                                        )}
-                                    </motion.div>
+                                    </p>
+                                    <div className="flex flex-wrap gap-1.5 mb-5">
+                                        {project.technologies.map((tech, idx) => (
+                                            <Badge
+                                                key={idx}
+                                                variant="secondary"
+                                                className="text-xs bg-primary/5 text-foreground border border-primary/10 hover:bg-primary/10 transition-colors"
+                                            >
+                                                {tech}
+                                            </Badge>
+                                        ))}
+                                    </div>
                                 </div>
-                                <motion.div
-                                    initial={{ opacity: 0, y: 10 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    viewport={{ once: true }}
-                                    transition={{ duration: 0.4, delay: 1 }}
+                                <motion.a
+                                    href={project.link}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center gap-2 text-sm text-primary hover:underline font-medium w-fit"
+                                    whileHover={{ x: 4 }}
+                                    whileTap={{ scale: 0.95 }}
                                 >
-                                    <motion.a
-                                        href={project.link}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="inline-flex items-center text-primary hover:underline font-medium"
-                                        whileHover={{ scale: 1.05, x: 5 }}
-                                        whileTap={{ scale: 0.95 }}
-                                    >
-                                        <ExternalLink className="mr-2" /> View
-                                        Project
-                                    </motion.a>
-                                </motion.div>
+                                    <ExternalLink className="h-4 w-4" />
+                                    View Repository
+                                </motion.a>
                             </motion.div>
                         </div>
                     </motion.div>
