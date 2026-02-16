@@ -1,26 +1,32 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import SiteShell from "@/components/SiteShell";
 
-const geistSans = Geist({
-    variable: "--font-poppins",
+const inter = Inter({
+    variable: "--font-sans",
     display: "swap",
-    weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
-    style: ["normal"],
     subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-    variable: "--font-geist-mono",
+const jetbrainsMono = JetBrains_Mono({
+    variable: "--font-mono",
     subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
-    title: "Nguyen Quoc Viet - Portfolio",
+    title: "Nguyen Quoc Viet | Software Engineer",
     description:
-        "Portfolio of Nguyen Quoc Viet, a software engineer specializing in web development.",
+        "Software Engineer specializing in backend development, DevSecOps, CI/CD pipelines, and cloud infrastructure. Building scalable, production-ready systems.",
+    keywords: [
+        "Nguyen Quoc Viet",
+        "Software Engineer",
+        "Backend Developer",
+        "DevSecOps",
+        "Full Stack",
+        "Portfolio",
+    ],
 };
 
 export default function RootLayout({
@@ -32,7 +38,7 @@ export default function RootLayout({
         <html lang="en" suppressHydrationWarning>
             <body
                 suppressHydrationWarning
-                className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+                className={`${inter.variable} ${jetbrainsMono.variable} font-sans antialiased`}
             >
                 <ThemeProvider
                     attribute="class"
