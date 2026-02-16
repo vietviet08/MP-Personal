@@ -77,7 +77,7 @@ export const HeroSection = () => {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.7, delay: 0.1 }}
                     >
-                        <span>Hi, I&apos;m </span>
+                        <span>👋Hi, I&apos;m </span>
                         <span className="text-gradient">{PersonalInfo.shortName}</span>
                         <span className="text-gradient"> {PersonalInfo.lastName}</span>
                     </motion.h1>
