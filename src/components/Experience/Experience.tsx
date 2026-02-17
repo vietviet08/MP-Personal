@@ -44,7 +44,7 @@ export const Experience = () => {
                                 transition={{ duration: 0.6, delay: index * 0.15 }}
                             >
                                 {/* Timeline dot */}
-                                <div className="timeline-dot" style={{ top: "0.5rem" }} />
+                                <div className="timeline-dot" style={{ top: "0.15rem" }} />
 
                                 <div className="glass-card p-6 ml-4">
                                     <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-3">

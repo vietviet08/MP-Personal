@@ -104,6 +104,15 @@ export const Header = () => {
                     >
                         <Icon icon="mdi:linkedin" className="h-5 w-5 text-muted-foreground hover:text-foreground transition-colors" />
                     </a>
+                    <a
+                        href={ContactInfo.socialLinks.facebook}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="p-2 rounded-lg hover:bg-foreground/5 transition-colors"
+                        aria-label="Facebook"
+                    >
+                        <Icon icon="mdi:facebook" className="h-5 w-5 text-muted-foreground hover:text-foreground transition-colors" />
+                    </a>
                     <div className="w-px h-5 bg-border" />
                     <ModeToggle />
                 </div>

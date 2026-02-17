@@ -33,13 +33,18 @@ import scss from "@/assets/scss.svg";
 import fastapi from "@/assets/FastAPI.svg";
 import firebase from "@/assets/firebase.svg";
 import supabase from "@/assets/supabase.svg";
-import liquibase from "@/assets/Liquibase.svg";
 import linux from "@/assets/linux.svg";
 import digitalocean from "@/assets/digital-ocean.svg";
 import gcp from "@/assets/gcp.svg";
 import jenkins from "@/assets/Jenkins.svg";
 import rancher from "@/assets/Rancher.svg";
 import jira from "@/assets/Jira.svg";
+import terraform from "@/assets/terraform.svg";
+import nginx from "@/assets/nginx.svg";
+import grafana from "@/assets/grafana.svg";
+import prometheus from "@/assets/prometheus.svg";
+import loki from "@/assets/loki.svg";
+import sonarqube from "@/assets/sonarqube.svg";
 
 import PicProject1 from "@/assets/pic-project-1.png";
 import PicProject2 from "@/assets/pic-project-2.png";
@@ -119,7 +124,7 @@ export const ExperienceInfo = [
     {
         company: "Techzen Company Limited",
         role: "Fullstack Developer",
-        project: "Techkan - Enterprise Work Management System",
+        project: "Enterprise Work Management System",
         period: "Jun 2025 — Present",
         highlights: [
             "Developed and maintained a production system using FastAPI, Vue.js, and PostgreSQL for task management and team collaboration workflows.",
@@ -158,6 +163,9 @@ export const SkillsInfo = [
             { name: "Docker", logo: docker },
             { name: "Kubernetes", logo: kubernetes },
             { name: "Rancher", logo: rancher },
+            { name: "Prometheus", logo: prometheus },
+            { name: "Grafana", logo: grafana },
+            { name: "Loki", logo: loki },
         ],
     },
     {
@@ -168,6 +176,8 @@ export const SkillsInfo = [
             { name: "Azure", logo: azure },
             { name: "Linux", logo: linux },
             { name: "DigitalOcean", logo: digitalocean },
+            { name: "Terraform", logo: terraform },
+            { name: "Nginx", logo: nginx },
         ],
     },
     {
@@ -215,7 +225,7 @@ export const SkillsInfo = [
             { name: "MongoDB", logo: mongodb },
             { name: "Firebase", logo: firebase },
             { name: "Supabase", logo: supabase },
-            { name: "Liquibase", logo: liquibase },
+            { name: "SonarQube", logo: sonarqube },
             { name: "Git", logo: git },
             { name: "Bitbucket", logo: bitbucket },
             { name: "Jira", logo: jira },
